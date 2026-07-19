@@ -1,3 +1,14 @@
+Всё понял! Исправляю:
+
+1. **Адаптив карточек** — добавляю `min-height` для всех карточек, чтобы они были одинаковой высоты
+2. **Бабугент** — добавляю выбор "Газированный / Негазированный"
+3. **Палли → Палпи** — исправляю название и состав (сок)
+4. **Добрый кола** — переименовываю и делаю как обычные напитки (без выбора)
+5. **Карточки которые слетели** — исправляю адаптив
+
+Вот полный исправленный код:
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -274,6 +285,7 @@
             box-shadow: var(--shadow);
             cursor: default;
             height: 100%;
+            min-height: 340px;
         }
         .product:active {
             transform: scale(0.97);
@@ -848,10 +860,6 @@
             font-weight: 600;
             font-size: 13px;
             color: var(--cream);
-        }
-        .cart-item__size {
-            font-size: 10px;
-            color: var(--text-muted);
         }
         .cart-item__variant {
             font-size: 10px;
@@ -1575,6 +1583,9 @@
             .admin-panel__body {
                 padding: 24px 32px 30px;
             }
+            .product {
+                min-height: 380px;
+            }
         }
 
         @media (min-width: 900px) {
@@ -1667,6 +1678,9 @@
                 max-width: 600px;
                 padding: 24px 28px 28px;
             }
+            .product {
+                min-height: 420px;
+            }
         }
 
         @media (min-width: 1200px) {
@@ -1688,6 +1702,9 @@
             }
             .pickup-map iframe {
                 height: 220px;
+            }
+            .product {
+                min-height: 440px;
             }
         }
 
@@ -1901,6 +1918,9 @@
             }
             .user-order-item {
                 padding: 10px 12px;
+            }
+            .product {
+                min-height: 300px;
             }
         }
     </style>
@@ -2193,8 +2213,8 @@
                 { id: 'n8', name: 'Картофель по-деревенски', price: 180, ingredients: 'Картофель с кожурой, соль, специи, розмарин', image: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=400&h=400&fit=crop' }
             ],
             drinks: [
-                { id: 'd1', name: 'Бабугент', price: 60, ingredients: 'Газированный и негазированный напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
-                { id: 'd2', name: 'Палли', price: 100, ingredients: 'Негазированный напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
+                { id: 'd1', name: 'Бабугент', price: 60, price2: 60, ingredients: 'Газированный и негазированный напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
+                { id: 'd2', name: 'Палпи', price: 100, ingredients: 'Сок, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd3', name: 'Lit Energy', price: 120, ingredients: 'Энергетический напиток, 0.45 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd4', name: 'Flash', price: 100, ingredients: 'Энергетический напиток, 0.45 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd5', name: 'Adrenaline', price: 150, ingredients: 'Энергетический напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
@@ -2467,6 +2487,9 @@
         }
 
         function getSizeLabel(item, size) {
+            if (item.id === 'd1') {
+                return size === 'large' ? 'Негазированный' : 'Газированный';
+            }
             if (!item.price2) return '';
             if (item.id.startsWith('t')) return size === 'large' ? 'Большой' : 'Средний';
             if (item.id.startsWith('s')) {
@@ -2477,6 +2500,9 @@
         }
 
         function getSizeButtonLabel(item, size) {
+            if (item.id === 'd1') {
+                return size === 'large' ? 'Негазированный' : 'Газированный';
+            }
             if (!item.price2) return '';
             if (item.id.startsWith('t')) return size === 'large' ? 'Большой' : 'Средний';
             if (item.id.startsWith('s')) {
@@ -2492,7 +2518,12 @@
         }
 
         function getProductDisplayPrice(product) {
-            if (product.price2) return product.price + ' / ' + product.price2 + ' ₽';
+            if (product.price2 && product.id !== 'd1') {
+                return product.price + ' / ' + product.price2 + ' ₽';
+            }
+            if (product.id === 'd1') {
+                return product.price + ' ₽';
+            }
             return product.price + ' ₽';
         }
 
@@ -2505,7 +2536,7 @@
             if (!container) return;
             const items = menuData[categoryKey] || [];
             container.innerHTML = items.map(item => {
-                const hasSize = !!item.price2;
+                const hasSize = !!item.price2 && item.id !== 'd1';
                 const hasVariant = item.id === 'd1';
                 const selectedSize = selectedSizeCache[item.id] || 'small';
                 const cartKey = getCartKey(item.id, selectedSize);
@@ -2526,8 +2557,8 @@
                             ` : ''}
                             ${hasVariant ? `
                                 <div class="product__variant-select">
-                                    <button class="product__variant-btn ${selectedSize === 'small' ? 'active' : ''}" onclick="selectVariant('${item.id}', 'small')">Газированный</button>
-                                    <button class="product__variant-btn ${selectedSize === 'large' ? 'active' : ''}" onclick="selectVariant('${item.id}', 'large')">Негазированный</button>
+                                    <button class="product__variant-btn ${selectedSize === 'small' ? 'active' : ''}" onclick="selectSize('${item.id}', 'small')">Газированный</button>
+                                    <button class="product__variant-btn ${selectedSize === 'large' ? 'active' : ''}" onclick="selectSize('${item.id}', 'large')">Негазированный</button>
                                 </div>
                             ` : ''}
                             <div class="product__actions">
@@ -2545,13 +2576,6 @@
                     </div>
                 `;
             }).join('');
-        }
-
-        function selectVariant(productId, variant) {
-            selectedSizeCache[productId] = variant;
-            saveCart();
-            renderAllCategories();
-            updateUI();
         }
 
         function renderAllCategories() {
@@ -2573,13 +2597,13 @@
             if (cart[cartKey]) {
                 cart[cartKey].quantity++;
             } else {
-                const variantLabel = size === 'large' ? 'Негазированный' : 'Газированный';
+                const variantLabel = getSizeLabel(item, size);
                 cart[cartKey] = {
                     ...item,
                     quantity: 1,
                     size: size,
                     price: getProductPrice(item, size),
-                    sizeLabel: item.id === 'd1' ? variantLabel : getSizeLabel(item, size)
+                    sizeLabel: variantLabel
                 };
             }
             saveCart();
@@ -2654,7 +2678,7 @@
                         </div>
                         <div class="cart-item__info">
                             <div class="cart-item__name">${item.name}</div>
-                            ${item.price2 ? '<div class="cart-item__size">' + sizeDisplay + '</div>' : ''}
+                            ${sizeDisplay ? '<div class="cart-item__variant">' + sizeDisplay + '</div>' : ''}
                             <div class="cart-item__price">${item.price} ₽</div>
                         </div>
                         <div class="cart-item__qty">
@@ -2700,11 +2724,18 @@
             } else {
                 ingredients.innerHTML = '<span style="color:var(--text-muted)">Состав не указан</span>';
             }
-            if (item.price2) {
+            if (item.price2 && item.id !== 'd1') {
                 sizeContainer.innerHTML = `
                     <div class="product-overlay__size-select">
                         <button class="product-overlay__size-btn ${overlaySelectedSize === 'small' ? 'active' : ''}" onclick="selectOverlaySize('small')">${getSizeButtonLabel(item, 'small')}</button>
                         <button class="product-overlay__size-btn ${overlaySelectedSize === 'large' ? 'active' : ''}" onclick="selectOverlaySize('large')">${getSizeButtonLabel(item, 'large')}</button>
+                    </div>
+                `;
+            } else if (item.id === 'd1') {
+                sizeContainer.innerHTML = `
+                    <div class="product-overlay__size-select">
+                        <button class="product-overlay__size-btn ${overlaySelectedSize === 'small' ? 'active' : ''}" onclick="selectOverlaySize('small')">Газированный</button>
+                        <button class="product-overlay__size-btn ${overlaySelectedSize === 'large' ? 'active' : ''}" onclick="selectOverlaySize('large')">Негазированный</button>
                     </div>
                 `;
             } else {
@@ -2967,3 +2998,4 @@
 
 </body>
 </html>
+```
