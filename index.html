@@ -1,6 +1,3 @@
-Понял! Убираю все лишние символы ` ``` ` из кода. Они появлялись из-за форматирования при вставке. Вот полностью рабочий код без лишних символов:
-
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -80,7 +77,6 @@
             text-decoration: none;
         }
 
-        /* ===== HEADER ===== */
         .header {
             position: fixed;
             top: 0;
@@ -160,7 +156,6 @@
             margin-left: 2px;
         }
 
-        /* ===== TABS ===== */
         .tabs-wrapper {
             position: fixed;
             top: 56px;
@@ -213,11 +208,10 @@
             transform: scale(0.94);
         }
 
-        /* ===== MAIN ===== */
         .main {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 115px 16px 30px;
+            padding: 108px 16px 30px;
         }
 
         .category {
@@ -263,7 +257,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== PRODUCTS ===== */
         .products {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -280,6 +273,7 @@
             flex-direction: column;
             box-shadow: var(--shadow);
             cursor: default;
+            height: 100%;
         }
         .product:active {
             transform: scale(0.97);
@@ -292,25 +286,13 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            flex-shrink: 0;
         }
         .product__image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: var(--transition);
-        }
-
-        .product__badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--turquoise);
-            color: #fff;
-            font-size: 9px;
-            font-weight: 700;
-            padding: 3px 12px;
-            border-radius: 50px;
-            text-transform: uppercase;
         }
 
         .product__body {
@@ -367,6 +349,33 @@
             transform: scale(0.94);
         }
 
+        .product__variant-select {
+            display: flex;
+            gap: 5px;
+            margin: 3px 0 2px;
+        }
+        .product__variant-btn {
+            flex: 1;
+            padding: 4px 0;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 600;
+            background: var(--glass-bg);
+            color: var(--text-secondary);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .product__variant-btn.active {
+            background: var(--turquoise);
+            color: #fff;
+            border-color: var(--turquoise);
+            box-shadow: 0 4px 14px rgba(44, 182, 176, 0.25);
+        }
+        .product__variant-btn:active {
+            transform: scale(0.94);
+        }
+
         .product__actions {
             display: flex;
             gap: 6px;
@@ -386,6 +395,10 @@
             color: var(--text-secondary);
             border: 1px solid var(--glass-border);
             cursor: pointer;
+            min-height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .product__btn:active {
             transform: scale(0.94);
@@ -408,6 +421,7 @@
             justify-content: center;
             gap: 6px;
             flex: 1;
+            min-height: 34px;
         }
         .product__qty-control button {
             width: 30px;
@@ -436,7 +450,6 @@
             color: var(--cream);
         }
 
-        /* ===== PRODUCT OVERLAY ===== */
         .product-overlay {
             position: fixed;
             inset: 0;
@@ -653,7 +666,6 @@
             border-color: var(--turquoise);
         }
 
-        /* ===== FLOATING CART ===== */
         .floating-cart {
             position: fixed;
             bottom: 20px;
@@ -720,7 +732,6 @@
             color: var(--graphite);
         }
 
-        /* ===== CART MODAL ===== */
         .cart-overlay {
             position: fixed;
             inset: 0;
@@ -839,6 +850,10 @@
             color: var(--cream);
         }
         .cart-item__size {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .cart-item__variant {
             font-size: 10px;
             color: var(--text-muted);
         }
@@ -1069,7 +1084,6 @@
             border: 1px solid rgba(231, 76, 60, 0.15);
         }
 
-        /* ===== INFO BLOCK ===== */
         .info-block {
             max-width: 1200px;
             margin: 30px auto 0;
@@ -1138,7 +1152,6 @@
             color: var(--amber);
         }
 
-        /* ===== USER ORDERS ===== */
         .user-orders-overlay {
             position: fixed;
             inset: 0;
@@ -1269,7 +1282,6 @@
             font-size: 15px;
         }
 
-        /* ===== ADMIN PANEL ===== */
         .admin-panel {
             position: fixed;
             inset: 0;
@@ -1453,7 +1465,6 @@
             font-size: 16px;
         }
 
-        /* ===== ADMIN LOGIN ===== */
         .admin-login {
             position: fixed;
             inset: 0;
@@ -1536,7 +1547,6 @@
             display: block;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (min-width: 600px) {
             .products {
                 gap: 16px;
@@ -1598,7 +1608,7 @@
                 font-size: 13px;
             }
             .main {
-                padding: 135px 32px 40px;
+                padding: 132px 32px 40px;
             }
             .category__title {
                 font-size: 30px;
@@ -1664,7 +1674,7 @@
                 gap: 24px;
             }
             .main {
-                padding: 145px 40px 50px;
+                padding: 140px 40px 50px;
             }
             .product__body {
                 padding: 20px 22px 22px;
@@ -1716,7 +1726,7 @@
                 font-size: 10px;
             }
             .main {
-                padding: 106px 12px 30px;
+                padding: 105px 12px 30px;
             }
             .category__title {
                 font-size: 20px;
@@ -1897,7 +1907,6 @@
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="header__logo" id="adminTrigger">
             <div class="header__logo-icon">AB</div>
@@ -1915,7 +1924,6 @@
         </button>
     </header>
 
-    <!-- ===== USER ORDERS MODAL ===== -->
     <div class="user-orders-overlay" id="userOrdersModal">
         <div class="user-orders-modal">
             <div class="user-orders-modal__header">
@@ -1928,7 +1936,6 @@
         </div>
     </div>
 
-    <!-- ===== ADMIN LOGIN ===== -->
     <div class="admin-login" id="adminLogin">
         <div class="admin-login__modal">
             <div class="admin-login__title">Вход в админ-панель</div>
@@ -1939,7 +1946,6 @@
         </div>
     </div>
 
-    <!-- ===== ADMIN PANEL ===== -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-panel__header">
             <div class="admin-panel__title">
@@ -1953,7 +1959,6 @@
         </div>
     </div>
 
-    <!-- ===== TABS ===== -->
     <div class="tabs-wrapper">
         <nav class="tabs" id="tabs">
             <button class="tab-btn active" data-category="burgers">Бургеры</button>
@@ -1967,7 +1972,6 @@
         </nav>
     </div>
 
-    <!-- ===== MAIN ===== -->
     <main class="main" id="main">
 
         <section class="category active" data-category="burgers">
@@ -2012,7 +2016,6 @@
             <div class="products" id="products-addons"></div>
         </section>
 
-        <!-- ===== INFO BLOCK ===== -->
         <div class="info-block">
             <div class="info-block__halal">HALAL Все блюда сертифицированы</div>
             <div class="info-block__divider"></div>
@@ -2027,7 +2030,6 @@
             </div>
         </div>
 
-        <!-- ===== MAP ===== -->
         <div class="map-section">
             <div class="map-section__title">Amur Burgers на карте</div>
             <iframe src="https://yandex.ru/map-widget/v1/?ll=43.594117,43.488945&z=17&pt=43.594117,43.488945~red" allowfullscreen="true" loading="lazy">
@@ -2036,7 +2038,6 @@
 
     </main>
 
-    <!-- ===== PRODUCT OVERLAY ===== -->
     <div class="product-overlay" id="productOverlay">
         <div class="product-overlay__content">
             <div class="product-overlay__image">
@@ -2063,7 +2064,6 @@
         </div>
     </div>
 
-    <!-- ===== FLOATING CART ===== -->
     <div class="floating-cart" id="floatingCart">
         <div class="floating-cart__left">
             <div class="floating-cart__icon">
@@ -2079,7 +2079,6 @@
         <div class="floating-cart__total" id="floatingTotal">0 ₽</div>
     </div>
 
-    <!-- ===== CART MODAL ===== -->
     <div class="cart-overlay" id="cartOverlay">
         <div class="cart-modal">
             <div class="cart-modal__header">
@@ -2194,14 +2193,14 @@
                 { id: 'n8', name: 'Картофель по-деревенски', price: 180, ingredients: 'Картофель с кожурой, соль, специи, розмарин', image: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=400&h=400&fit=crop' }
             ],
             drinks: [
-                { id: 'd1', name: 'Бабугент', price: 60, ingredients: 'Газированный напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
-                { id: 'd2', name: 'Палли', price: 100, ingredients: 'Газированный напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
+                { id: 'd1', name: 'Бабугент', price: 60, ingredients: 'Газированный и негазированный напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
+                { id: 'd2', name: 'Палли', price: 100, ingredients: 'Негазированный напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd3', name: 'Lit Energy', price: 120, ingredients: 'Энергетический напиток, 0.45 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd4', name: 'Flash', price: 100, ingredients: 'Энергетический напиток, 0.45 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd5', name: 'Adrenaline', price: 150, ingredients: 'Энергетический напиток, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd6', name: 'Кинза', price: 120, ingredients: 'Лимонад, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
-                { id: 'd7', name: 'Добрый (ж/б)', price: 100, ingredients: 'Сок в жестяной банке, 0.33 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
-                { id: 'd8', name: 'Добрый 1 л', price: 120, ingredients: 'Сок, 1 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
+                { id: 'd7', name: 'Добрый кола (ж/б)', price: 100, ingredients: 'Кола в жестяной банке, 0.33 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
+                { id: 'd8', name: 'Добрый кола 1 л', price: 120, ingredients: 'Кола, 1 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd9', name: 'Сок 1 л', price: 120, ingredients: 'Сок, 1 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd10', name: 'Груша (стекло)', price: 80, ingredients: 'Грушевый напиток в стекле, 0.5 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
                 { id: 'd11', name: 'Чай', price: 50, ingredients: 'Чай чёрный, 0.3 л', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=400&fit=crop' },
@@ -2232,7 +2231,6 @@
         let overlayQty = 1;
         let overlaySelectedSize = 'small';
 
-        // ===== ЗВУК =====
         function playNotificationSound() {
             try {
                 const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
@@ -2261,7 +2259,6 @@
             } catch (e) {}
         }
 
-        // ===== АДМИН =====
         const ADMIN_PASSWORD = 'amur123';
         let clickCount = 0;
         let clickTimer = null;
@@ -2387,7 +2384,6 @@
             badge.textContent = processingCount;
         }
 
-        // ===== СКРЫТЫЙ ВХОД =====
         document.getElementById('adminTrigger').addEventListener('click', function() {
             clickCount++;
             if (clickTimer) clearTimeout(clickTimer);
@@ -2436,7 +2432,6 @@
             if (e.target === this) this.classList.remove('open');
         });
 
-        // ===== ЗАКАЗЫ ПОСЕТИТЕЛЯ =====
         document.getElementById('userOrdersBtn').addEventListener('click', function() {
             document.getElementById('userOrdersModal').classList.add('open');
             renderUserOrders();
@@ -2455,7 +2450,6 @@
             }
         });
 
-        // ===== КОРЗИНА =====
         function loadCart() {
             try {
                 const saved = localStorage.getItem('amurCart');
@@ -2512,6 +2506,7 @@
             const items = menuData[categoryKey] || [];
             container.innerHTML = items.map(item => {
                 const hasSize = !!item.price2;
+                const hasVariant = item.id === 'd1';
                 const selectedSize = selectedSizeCache[item.id] || 'small';
                 const cartKey = getCartKey(item.id, selectedSize);
                 const itemInCart = cart[cartKey];
@@ -2519,7 +2514,6 @@
                     <div class="product" data-id="${item.id}">
                         <div class="product__image" onclick="openProduct('${item.id}')">
                             ${item.image ? '<img src="' + item.image + '" alt="' + item.name + '" loading="lazy">' : '<div class="placeholder">' + item.name + '</div>'}
-                            ${hasSize ? '<span class="product__badge">2 размера</span>' : ''}
                         </div>
                         <div class="product__body">
                             <div class="product__name" onclick="openProduct('${item.id}')">${item.name}</div>
@@ -2528,6 +2522,12 @@
                                 <div class="product__size-select">
                                     <button class="product__size-btn ${selectedSize === 'small' ? 'active' : ''}" onclick="selectSize('${item.id}', 'small')">${getSizeButtonLabel(item, 'small')}</button>
                                     <button class="product__size-btn ${selectedSize === 'large' ? 'active' : ''}" onclick="selectSize('${item.id}', 'large')">${getSizeButtonLabel(item, 'large')}</button>
+                                </div>
+                            ` : ''}
+                            ${hasVariant ? `
+                                <div class="product__variant-select">
+                                    <button class="product__variant-btn ${selectedSize === 'small' ? 'active' : ''}" onclick="selectVariant('${item.id}', 'small')">Газированный</button>
+                                    <button class="product__variant-btn ${selectedSize === 'large' ? 'active' : ''}" onclick="selectVariant('${item.id}', 'large')">Негазированный</button>
                                 </div>
                             ` : ''}
                             <div class="product__actions">
@@ -2545,6 +2545,13 @@
                     </div>
                 `;
             }).join('');
+        }
+
+        function selectVariant(productId, variant) {
+            selectedSizeCache[productId] = variant;
+            saveCart();
+            renderAllCategories();
+            updateUI();
         }
 
         function renderAllCategories() {
@@ -2566,12 +2573,13 @@
             if (cart[cartKey]) {
                 cart[cartKey].quantity++;
             } else {
+                const variantLabel = size === 'large' ? 'Негазированный' : 'Газированный';
                 cart[cartKey] = {
                     ...item,
                     quantity: 1,
                     size: size,
                     price: getProductPrice(item, size),
-                    sizeLabel: getSizeLabel(item, size)
+                    sizeLabel: item.id === 'd1' ? variantLabel : getSizeLabel(item, size)
                 };
             }
             saveCart();
@@ -2669,7 +2677,6 @@
             document.getElementById('orderStatus').textContent = '';
         }
 
-        // ===== PRODUCT OVERLAY =====
         function openProduct(productId) {
             const item = findProduct(productId);
             if (!item) return;
@@ -2779,7 +2786,6 @@
             closeOverlay();
         });
 
-        // ===== ТАБЫ =====
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -2795,7 +2801,6 @@
             });
         });
 
-        // ===== КОРЗИНА - ОТКРЫТИЕ/ЗАКРЫТИЕ =====
         document.getElementById('floatingCart').addEventListener('click', openCart);
 
         document.getElementById('cartClose').addEventListener('click', function() {
@@ -2810,7 +2815,6 @@
             }
         });
 
-        // ===== ТИП ЗАКАЗА =====
         document.querySelectorAll('.order-type__btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.order-type__btn').forEach(b => b.classList.remove('active'));
@@ -2828,7 +2832,6 @@
             });
         });
 
-        // ===== ОТПРАВКА В TELEGRAM =====
         const TELEGRAM_BOT_TOKEN = '8944369213:AAHUE5TtO92cj8gBBG8fYAzV1n0muG3H1qM';
         const TELEGRAM_CHAT_ID = '1922216067';
 
@@ -2953,7 +2956,6 @@
             submitBtn.textContent = 'Оформить заказ';
         });
 
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
         loadOrders();
         loadCart();
         renderAllCategories();
@@ -2965,4 +2967,3 @@
 
 </body>
 </html>
-```
