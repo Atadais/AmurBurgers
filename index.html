@@ -1,3 +1,6 @@
+Вот полный исправленный код с одинаковым расположением кнопок и текста во всех карточках:
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -316,6 +319,7 @@
             font-size: 17px;
             color: var(--amber);
             cursor: pointer;
+            min-height: 24px;
         }
         .product__price small {
             font-weight: 400;
@@ -327,6 +331,7 @@
             display: flex;
             gap: 5px;
             margin: 3px 0 2px;
+            min-height: 28px;
         }
         .product__size-btn {
             flex: 1;
@@ -354,6 +359,7 @@
             display: flex;
             gap: 5px;
             margin: 3px 0 2px;
+            min-height: 28px;
         }
         .product__variant-btn {
             flex: 1;
@@ -377,10 +383,17 @@
             transform: scale(0.94);
         }
 
+        .product__size-placeholder {
+            min-height: 28px;
+            margin: 3px 0 2px;
+        }
+
         .product__actions {
             display: flex;
             gap: 6px;
-            margin-top: 3px;
+            margin-top: auto;
+            padding-top: 4px;
+            min-height: 34px;
         }
         .product__btn {
             flex: 1;
@@ -2527,6 +2540,7 @@
             container.innerHTML = items.map(item => {
                 const hasSize = !!item.price2 && item.id !== 'd1';
                 const hasVariant = item.id === 'd1';
+                const hasChoice = hasSize || hasVariant;
                 const selectedSize = selectedSizeCache[item.id] || 'small';
                 const cartKey = getCartKey(item.id, selectedSize);
                 const itemInCart = cart[cartKey];
@@ -2550,6 +2564,7 @@
                                     <button class="product__variant-btn ${selectedSize === 'large' ? 'active' : ''}" onclick="selectSize('${item.id}', 'large')">Негазированный</button>
                                 </div>
                             ` : ''}
+                            ${!hasChoice ? `<div class="product__size-placeholder"></div>` : ''}
                             <div class="product__actions">
                                 ${itemInCart && itemInCart.quantity > 0 ? `
                                     <div class="product__qty-control">
@@ -2987,3 +3002,4 @@
 
 </body>
 </html>
+```
