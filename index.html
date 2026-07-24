@@ -723,6 +723,7 @@
             padding: 16px 16px 18px;
             animation: slideCart 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 -8px 60px rgba(0, 0, 0, 0.08);
+            border-top: 2px solid var(--olive);
         }
         @keyframes slideCart {
             from { transform: translateY(40px); opacity: 0; }
@@ -1523,8 +1524,8 @@
                 </div>
 
                 <div class="order-type" id="orderType">
-                    <button class="order-type__btn active" data-type="delivery">Доставка</button>
-                    <button class="order-type__btn" data-type="pickup">С собой</button>
+                    <button class="order-type__btn active" data-type="delivery">🚚 Доставка</button>
+                    <button class="order-type__btn" data-type="pickup">🏃 С собой</button>
                 </div>
 
                 <form class="cart-modal__form" id="orderForm">
@@ -1587,7 +1588,10 @@
                 const response = await fetch(JSONBIN_API_URL, {
                     headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
                 });
-                if (!response.ok) return [];
+                if (!response.ok) {
+                    console.error('Ошибка получения заказов:', response.status);
+                    return [];
+                }
                 const data = await response.json();
                 return data.record || [];
             } catch (error) {
@@ -1598,8 +1602,13 @@
 
         async function saveOrderToCloud(orderData) {
             try {
+                // Получаем текущие заказы
                 const currentOrders = await getOrdersFromCloud();
+                
+                // Добавляем новый заказ в начало
                 currentOrders.unshift(orderData);
+                
+                // Сохраняем обратно
                 const response = await fetch(JSONBIN_API_URL, {
                     method: 'PUT',
                     headers: {
@@ -1608,7 +1617,13 @@
                     },
                     body: JSON.stringify(currentOrders)
                 });
-                if (!response.ok) return false;
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Ошибка сохранения:', response.status, errorText);
+                    return false;
+                }
+                
                 console.log('✅ Заказ сохранён в облаке');
                 return true;
             } catch (error) {
@@ -1698,7 +1713,7 @@
         let overlaySelectedSize = 'small';
 
         // ============================================================
-        //  ТРОЙНОЙ КЛИК ДЛЯ АДМИНКИ
+        //  ТРОЙНОЙ КЛИК ДЛЯ АДМИНКИ (ПАРОЛЬ: Amur_amur1@)
         // ============================================================
         let clickCount = 0;
         let clickTimer = null;
@@ -1720,6 +1735,7 @@
                 clickCount = 0;
                 clearTimeout(clickTimer);
                 if (navigator.vibrate) navigator.vibrate(50);
+                // Пароль: Amur_amur1@ (вводится на странице admin.html)
                 window.location.href = 'admin.html';
                 return;
             }
@@ -2150,11 +2166,7 @@
             });
         });
 
-        // ВАЖНО: звук ТОЛЬКО для админки, у пользователей его нет!
-        // Функция playNotificationSound удалена из пользовательской части
-
         function updateBadges() {
-            // Для пользователей показываем только количество ИХ заказов
             const userPhone = localStorage.getItem('amurUserPhone');
             if (!userPhone) {
                 document.getElementById('userOrdersBadge').textContent = '0';
@@ -2167,7 +2179,6 @@
             });
         }
 
-        // Сохраняем телефон пользователя для фильтрации
         function saveUserPhone(phone) {
             localStorage.setItem('amurUserPhone', phone);
         }
@@ -2204,7 +2215,6 @@
             }
             
             const allOrders = await getOrdersFromCloud();
-            // Фильтруем заказы только этого пользователя
             const userOrders = allOrders.filter(o => o.phone === userPhone);
             
             if (userOrders.length === 0) {
@@ -2230,7 +2240,7 @@
         }
 
         // ============================================================
-        //  ОТПРАВКА ЗАКАЗА (БЕЗ ЗВУКА ДЛЯ ПОЛЬЗОВАТЕЛЕЙ)
+        //  ОТПРАВКА ЗАКАЗА
         // ============================================================
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -2241,16 +2251,15 @@
 
             if (!name || !phone) {
                 status.className = 'cart-modal__status error';
-                status.textContent = 'Пожалуйста, заполните имя и телефон';
+                status.textContent = '❌ Пожалуйста, заполните имя и телефон';
                 return;
             }
 
-            // Сохраняем телефон пользователя
             saveUserPhone(phone);
 
             if (Object.keys(cart).length === 0) {
                 status.className = 'cart-modal__status error';
-                status.textContent = 'Корзина пуста';
+                status.textContent = '❌ Корзина пуста';
                 return;
             }
 
@@ -2289,7 +2298,6 @@
                 date: new Date().toISOString()
             };
 
-            // Сохраняем в облако (БЕЗ ЗВУКА для пользователей)
             saveOrderToCloud(orderData).then(async (success) => {
                 if (success) {
                     status.className = 'cart-modal__status success';
@@ -2324,7 +2332,7 @@
         updateUI();
         updateBadges();
 
-        // Периодически обновляем бейдж для пользователя (проверяем статус его заказов)
+        // Периодически обновляем бейдж для пользователя
         setInterval(() => {
             updateBadges();
         }, 10000);
@@ -2334,10 +2342,11 @@
         }
 
         console.log('✅ Amur Burgers загружен');
-        console.log('🔑 Тройной клик по логотипу для входа в админку');
+        console.log('🔑 Пароль для входа в админку: Amur_amur1@');
         console.log('☁️ Заказы синхронизируются через JSONBin.io');
         console.log('👤 Пользователи видят только свои заказы');
         console.log('🔊 Звук ТОЛЬКО в админ-панели');
+        console.log('🗺️ Карта только в разделе "С собой"');
     </script>
 </body>
 </html>
