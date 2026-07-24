@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Amur Burgers — Админ-панель</title>
     <link rel="manifest" href="manifest.json">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <style>
         * {
             margin: 0;
@@ -716,6 +719,10 @@
                 if ('Notification' in window && Notification.permission === 'granted') {
                     document.getElementById('notifBanner').style.display = 'none';
                 }
+                // Сохраняем состояние в localStorage чтобы не вводить пароль при обновлении
+                try {
+                    localStorage.setItem('amurAdminAuth', 'true');
+                } catch(e) {}
             } else {
                 document.getElementById('loginError').classList.add('show');
                 document.getElementById('adminPassword').value = '';
@@ -760,6 +767,24 @@
         function goToMain() {
             window.location.href = '/';
         }
+
+        // Проверка сохранённой сессии
+        (function() {
+            try {
+                const auth = localStorage.getItem('amurAdminAuth');
+                if (auth === 'true') {
+                    document.getElementById('loginOverlay').classList.add('hidden');
+                    document.getElementById('adminPanel').classList.add('open');
+                    renderOrders();
+                    if ('serviceWorker' in navigator) {
+                        navigator.serviceWorker.register('/sw.js').catch(() => {});
+                    }
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        document.getElementById('notifBanner').style.display = 'none';
+                    }
+                }
+            } catch(e) {}
+        })();
 
         setTimeout(() => {
             const orders = getOrders();
