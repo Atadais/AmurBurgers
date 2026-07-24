@@ -26,8 +26,9 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // Пропускаем кэширование для admin.html с параметром ?t=
-  if (event.request.url.includes('/admin.html') && event.request.url.includes('?t=')) {
+  // Пропускаем кэш для admin.html и index.html с параметром ?t=
+  const url = new URL(event.request.url);
+  if (url.pathname.includes('admin.html') || url.search.includes('t=')) {
     event.respondWith(fetch(event.request));
     return;
   }
