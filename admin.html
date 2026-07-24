@@ -472,6 +472,7 @@
         const JSONBIN_MASTER_KEY = '$2a$10$H1rjUVhTASPDIZOjOcw5vuwbi6wZ2NIx01bSpW/15OcuMSQkhuO/.';
         const JSONBIN_API_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
+        // ПАРОЛЬ ДЛЯ ВХОДА
         const ADMIN_PASSWORD = 'Amur_amur1@';
         let orders = [];
         let currentFilter = 'all';
@@ -593,7 +594,6 @@
         function playNotificationSound() {
             try {
                 const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                // Первый звук
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.connect(gain);
@@ -605,7 +605,6 @@
                 osc.start(audioCtx.currentTime);
                 osc.stop(audioCtx.currentTime + 0.3);
                 
-                // Второй звук
                 setTimeout(() => {
                     const osc2 = audioCtx.createOscillator();
                     const gain2 = audioCtx.createGain();
@@ -704,7 +703,6 @@
             if (currentOrders.length > orders.length) {
                 orders = currentOrders;
                 renderOrders();
-                // ЗВУК для админки при новом заказе
                 playNotificationSound();
                 
                 if ('Notification' in window && Notification.permission === 'granted' && 'serviceWorker' in navigator) {
@@ -725,7 +723,6 @@
             lastOrderCount = orders.length;
         }
 
-        // Проверка новых заказов каждые 3 секунды
         setInterval(checkNewOrders, 3000);
 
         // ============================================================
@@ -748,6 +745,7 @@
         })();
 
         console.log('✅ Админ-панель Amur Burgers загружена');
+        console.log('🔑 Пароль: Amur_amur1@');
         console.log('☁️ Заказы синхронизируются через JSONBin.io');
         console.log('🔊 Звук включен для новых заказов');
         console.log('📋 Показаны все заказы со всех устройств');
