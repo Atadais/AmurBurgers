@@ -158,7 +158,6 @@
             font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
-            onclick: "window.location.href='index.html'"
         }
         .admin-header__close:hover {
             border-color: var(--olive);
@@ -422,7 +421,7 @@
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
             <div class="admin-header__title">Заказы <span>Amur</span></div>
-            <button class="admin-header__close" id="goToMainBtn">На главную</button>
+            <button class="admin-header__close" onclick="window.location.href='index.html'">На главную</button>
         </div>
 
         <div class="notif-banner" id="notifBanner">
@@ -473,13 +472,12 @@
         const JSONBIN_MASTER_KEY = '$2a$10$H1rjUVhTASPDIZOjOcw5vuwbi6wZ2NIx01bSpW/15OcuMSQkhuO/.';
         const JSONBIN_API_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
-        // ПАРОЛЬ ДЛЯ ВХОДА
         const ADMIN_PASSWORD = 'Amur_amur1@';
         let orders = [];
         let currentFilter = 'all';
 
         // ============================================================
-        //  РАБОТА С JSONBin - ИСПРАВЛЕННАЯ ВЕРСИЯ!
+        //  РАБОТА С JSONBin
         // ============================================================
         async function getOrdersFromCloud() {
             try {
@@ -489,17 +487,8 @@
                         'Content-Type': 'application/json'
                     }
                 });
-                
-                if (response.status === 404) {
-                    console.warn('Bin не найден');
-                    return [];
-                }
-                
-                if (!response.ok) {
-                    console.error('Ошибка получения заказов:', response.status);
-                    return [];
-                }
-                
+                if (response.status === 404) return [];
+                if (!response.ok) return [];
                 const data = await response.json();
                 return Array.isArray(data.record) ? data.record : [];
             } catch (error) {
@@ -637,11 +626,6 @@
         // ============================================================
         //  ОБРАБОТЧИКИ
         // ============================================================
-        document.getElementById('goToMainBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'index.html';
-        });
-
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
