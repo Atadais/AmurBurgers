@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Amur Burgers</title>
     <link rel="manifest" href="manifest.json">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <style>
         * {
             margin: 0;
@@ -104,6 +107,10 @@
             gap: 10px;
             cursor: pointer;
             user-select: none;
+            transition: opacity 0.2s ease;
+        }
+        .header__logo:active {
+            opacity: 0.6;
         }
 
         .header__logo-icon {
@@ -126,6 +133,7 @@
             font-size: 18px;
             color: var(--olive-dark);
             letter-spacing: -0.5px;
+            pointer-events: none;
         }
         .header__logo-text span {
             color: var(--gold);
@@ -1623,6 +1631,29 @@
                 min-height: 280px;
             }
         }
+
+        /* Анимация для подсказки тройного клика */
+        .header__logo .click-hint {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+            background: rgba(0,0,0,0.05);
+            padding: 0 8px;
+            border-radius: 10px;
+        }
+        .header__logo:hover .click-hint {
+            opacity: 0.7;
+        }
+        .header__logo {
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -1631,6 +1662,7 @@
         <div class="header__logo" id="adminTrigger">
             <div class="header__logo-icon">AB</div>
             <div class="header__logo-text">Amur <span>Burgers</span></div>
+            <span class="click-hint">✦ 3 клика для админки</span>
         </div>
         <button class="header__orders" id="userOrdersBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1928,6 +1960,46 @@
         let overlayQty = 1;
         let overlaySelectedSize = 'small';
 
+        // ============ ТРОЙНОЙ КЛИК ДЛЯ АДМИНКИ ============
+        let clickCount = 0;
+        let clickTimer = null;
+
+        document.getElementById('adminTrigger').addEventListener('click', function(e) {
+            e.preventDefault();
+            clickCount++;
+            
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+            }
+            
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+                this.style.opacity = '1';
+            }, 1000);
+            
+            // Визуальная обратная связь
+            if (clickCount === 1) {
+                this.style.opacity = '0.85';
+            } else if (clickCount === 2) {
+                this.style.opacity = '0.6';
+                // Маленькая вибрация для мобильных
+                if (navigator.vibrate) navigator.vibrate(10);
+            } else if (clickCount === 3) {
+                this.style.opacity = '1';
+                if (navigator.vibrate) navigator.vibrate(50);
+            }
+            
+            if (clickCount >= 3) {
+                clickCount = 0;
+                clearTimeout(clickTimer);
+                this.style.opacity = '1';
+                
+                // Переход на админку с принудительной перезагрузкой (обходит кэш)
+                window.location.href = '/admin.html?t=' + Date.now();
+            }
+        });
+
+        // ============ ОСТАЛЬНОЙ КОД ============
         function loadCart() {
             try {
                 const saved = localStorage.getItem('amurCart');
@@ -2420,20 +2492,6 @@
                 </div>
             `).join('');
         }
-
-        let clickCount = 0;
-        let clickTimer = null;
-
-        document.getElementById('adminTrigger').addEventListener('click', function() {
-            clickCount++;
-            if (clickTimer) clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => { clickCount = 0; }, 800);
-            if (clickCount >= 3) {
-                clickCount = 0;
-                clearTimeout(clickTimer);
-                window.location.href = '/admin.html';
-            }
-        });
 
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
