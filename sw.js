@@ -1,4 +1,4 @@
-const CACHE_NAME = 'amur-burgers-v1';
+const CACHE_NAME = 'amur-burgers-v3';
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -26,6 +26,12 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Пропускаем кэширование для admin.html с параметром ?t=
+  if (event.request.url.includes('/admin.html') && event.request.url.includes('?t=')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+  
   event.respondWith(
     caches.match(event.request).then(response => {
       return response || fetch(event.request);
@@ -38,8 +44,8 @@ self.addEventListener('push', function(event) {
   const title = data.title || 'Новый заказ!';
   const options = {
     body: data.body || 'Поступил новый заказ',
-    icon: 'https://placehold.co/192x192/000000/FFFFFF?text=AB&font=playfair',
-    badge: 'https://placehold.co/192x192/000000/FFFFFF?text=AB&font=playfair',
+    icon: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
+    badge: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
     vibrate: [200, 100, 200],
     tag: 'new-order',
     renotify: true,
@@ -62,7 +68,7 @@ self.addEventListener('notificationclick', function(event) {
         }
       }
       if (clients.openWindow) {
-        return clients.openWindow(url);
+        return clients.openWindow(url + '?t=' + Date.now());
       }
     })
   );
