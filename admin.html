@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Amur Burgers — Админ-панель</title>
     <link rel="manifest" href="manifest.json">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         :root {
             --bg: #F5F0EB;
             --card: #FFFFFF;
@@ -32,7 +28,6 @@
             --radius-sm: 8px;
             --transition: all 0.25s ease;
         }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
             background: var(--bg);
@@ -41,7 +36,6 @@
             -webkit-font-smoothing: antialiased;
             padding: 0;
         }
-
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -52,7 +46,6 @@
             background: var(--olive);
             border-radius: 10px;
         }
-
         .login-overlay {
             position: fixed;
             inset: 0;
@@ -67,7 +60,6 @@
         .login-overlay.hidden {
             display: none;
         }
-
         .login-modal {
             background: var(--card);
             border-radius: var(--radius);
@@ -149,7 +141,6 @@
         .login-modal__error.show {
             display: block;
         }
-
         .admin-panel {
             display: none;
             min-height: 100vh;
@@ -160,7 +151,6 @@
         .admin-panel.open {
             display: block;
         }
-
         .admin-header {
             display: flex;
             justify-content: space-between;
@@ -195,7 +185,6 @@
             border-color: var(--olive);
             color: var(--olive);
         }
-
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -234,7 +223,6 @@
             letter-spacing: 0.5px;
             font-weight: 600;
         }
-
         .filters {
             display: flex;
             gap: 6px;
@@ -261,13 +249,11 @@
             border-color: var(--olive);
             color: var(--olive);
         }
-
         .orders-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-
         .order-card {
             background: var(--card);
             border-radius: var(--radius-sm);
@@ -287,7 +273,6 @@
             0%, 100% { border-left-color: #D4A843; }
             50% { border-left-color: #F1C40F; }
         }
-
         .order-card__top {
             display: flex;
             justify-content: space-between;
@@ -387,7 +372,6 @@
         .order-card__btn.accept:hover {
             background: var(--olive-dark);
         }
-
         .empty-orders {
             text-align: center;
             color: var(--text-muted);
@@ -397,7 +381,6 @@
             border-radius: var(--radius-sm);
             box-shadow: var(--shadow);
         }
-
         .notif-banner {
             background: rgba(212, 168, 67, 0.08);
             border: 1px solid rgba(212, 168, 67, 0.15);
@@ -431,61 +414,27 @@
         .notif-banner__btn:hover {
             background: var(--gold-light);
         }
-
         @media (max-width: 600px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            .stat-card__number {
-                font-size: 26px;
-            }
-            .admin-header__title {
-                font-size: 22px;
-            }
-            .order-card {
-                padding: 14px 14px;
-            }
+            .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .stat-card__number { font-size: 26px; }
+            .admin-header__title { font-size: 22px; }
+            .order-card { padding: 14px 14px; }
         }
-
         @media (max-width: 400px) {
-            .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-            }
-            .stat-card {
-                padding: 12px 10px;
-            }
-            .stat-card__number {
-                font-size: 22px;
-            }
-            .login-modal {
-                padding: 28px 18px 20px;
-            }
-            .login-modal__title {
-                font-size: 20px;
-            }
-            .order-card__id {
-                font-size: 13px;
-            }
-            .order-card__customer {
-                font-size: 14px;
-            }
-            .order-card__total {
-                font-size: 15px;
-            }
-            .filters {
-                gap: 4px;
-            }
-            .filter-btn {
-                padding: 5px 12px;
-                font-size: 11px;
-            }
+            .stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .stat-card { padding: 12px 10px; }
+            .stat-card__number { font-size: 22px; }
+            .login-modal { padding: 28px 18px 20px; }
+            .login-modal__title { font-size: 20px; }
+            .order-card__id { font-size: 13px; }
+            .order-card__customer { font-size: 14px; }
+            .order-card__total { font-size: 15px; }
+            .filters { gap: 4px; }
+            .filter-btn { padding: 5px 12px; font-size: 11px; }
         }
     </style>
 </head>
 <body>
-
     <div class="login-overlay" id="loginOverlay">
         <div class="login-modal">
             <div class="login-modal__title">Amur <span>Burgers</span></div>
@@ -495,39 +444,21 @@
             <div class="login-modal__error" id="loginError">Неверный пароль</div>
         </div>
     </div>
-
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
             <div class="admin-header__title">Заказы <span>Amur</span></div>
-            <button class="admin-header__close" onclick="goToMain()">На главную</button>
+            <button class="admin-header__close" onclick="window.location.href='/'">На главную</button>
         </div>
-
         <div class="notif-banner" id="notifBanner">
-            <div class="notif-banner__text">
-                <strong>Включите уведомления</strong> — оповещения о новых заказах
-            </div>
+            <div class="notif-banner__text"><strong>Включите уведомления</strong> — оповещения о новых заказах</div>
             <button class="notif-banner__btn" id="enableNotifBtn">Включить</button>
         </div>
-
         <div class="stats" id="stats">
-            <div class="stat-card">
-                <div class="stat-card__number" id="statTotal">0</div>
-                <div class="stat-card__label">Всего</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card__number orange" id="statProcessing">0</div>
-                <div class="stat-card__label">В обработке</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card__number green" id="statAccepted">0</div>
-                <div class="stat-card__label">Принято</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card__number" id="statToday">0</div>
-                <div class="stat-card__label">Сегодня</div>
-            </div>
+            <div class="stat-card"><div class="stat-card__number" id="statTotal">0</div><div class="stat-card__label">Всего</div></div>
+            <div class="stat-card"><div class="stat-card__number orange" id="statProcessing">0</div><div class="stat-card__label">В обработке</div></div>
+            <div class="stat-card"><div class="stat-card__number green" id="statAccepted">0</div><div class="stat-card__label">Принято</div></div>
+            <div class="stat-card"><div class="stat-card__number" id="statToday">0</div><div class="stat-card__label">Сегодня</div></div>
         </div>
-
         <div class="filters" id="filters">
             <button class="filter-btn active" data-filter="all">Все</button>
             <button class="filter-btn" data-filter="processing">В обработке</button>
@@ -536,147 +467,94 @@
             <button class="filter-btn" data-filter="week">Неделя</button>
             <button class="filter-btn" data-filter="month">Месяц</button>
         </div>
-
         <div class="orders-list" id="ordersList">
             <div class="empty-orders">Заказов пока нет</div>
         </div>
     </div>
-
     <script>
         const ADMIN_PASSWORD = 'Amur_amur1@';
-
-        function getOrders() {
-            try {
-                return JSON.parse(localStorage.getItem('amurOrders')) || [];
-            } catch (e) {
-                return [];
-            }
-        }
-
-        function saveOrders(orders) {
-            try {
-                localStorage.setItem('amurOrders', JSON.stringify(orders));
-            } catch (e) {}
-        }
-
+        function getOrders() { try { return JSON.parse(localStorage.getItem('amurOrders')) || []; } catch(e) { return []; } }
+        function saveOrders(orders) { try { localStorage.setItem('amurOrders', JSON.stringify(orders)); } catch(e) {} }
         function updateStats(orders) {
             const total = orders.length;
             const processing = orders.filter(o => o.status === 'processing').length;
             const accepted = orders.filter(o => o.status === 'accepted').length;
             const today = new Date().toDateString();
             const todayOrders = orders.filter(o => new Date(o.date).toDateString() === today).length;
-
             document.getElementById('statTotal').textContent = total;
             document.getElementById('statProcessing').textContent = processing;
             document.getElementById('statAccepted').textContent = accepted;
             document.getElementById('statToday').textContent = todayOrders;
         }
-
         let currentFilter = 'all';
-
         function getFilteredOrders(orders, filter) {
             const today = new Date().toDateString();
-            const weekAgo = new Date();
-            weekAgo.setDate(weekAgo.getDate() - 7);
-            const monthAgo = new Date();
-            monthAgo.setMonth(monthAgo.getMonth() - 1);
-
-            switch (filter) {
-                case 'processing':
-                    return orders.filter(o => o.status === 'processing');
-                case 'accepted':
-                    return orders.filter(o => o.status === 'accepted');
-                case 'today':
-                    return orders.filter(o => new Date(o.date).toDateString() === today);
-                case 'week':
-                    return orders.filter(o => new Date(o.date) >= weekAgo);
-                case 'month':
-                    return orders.filter(o => new Date(o.date) >= monthAgo);
-                default:
-                    return orders;
+            const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+            const monthAgo = new Date(); monthAgo.setMonth(monthAgo.getMonth() - 1);
+            switch(filter) {
+                case 'processing': return orders.filter(o => o.status === 'processing');
+                case 'accepted': return orders.filter(o => o.status === 'accepted');
+                case 'today': return orders.filter(o => new Date(o.date).toDateString() === today);
+                case 'week': return orders.filter(o => new Date(o.date) >= weekAgo);
+                case 'month': return orders.filter(o => new Date(o.date) >= monthAgo);
+                default: return orders;
             }
         }
-
         function renderOrders() {
             const container = document.getElementById('ordersList');
             const allOrders = getOrders();
             const filtered = getFilteredOrders(allOrders, currentFilter);
-
             updateStats(allOrders);
-
             if (filtered.length === 0) {
                 container.innerHTML = '<div class="empty-orders">Заказов пока нет</div>';
                 return;
             }
-
             container.innerHTML = filtered.map(order => `
                 <div class="order-card ${order.status === 'processing' ? 'new-order' : ''}">
                     <div class="order-card__top">
                         <span class="order-card__id">Заказ #${String(order.id).slice(-6)}</span>
                         <span class="order-card__date">${new Date(order.date).toLocaleString('ru-RU')}</span>
                     </div>
-                    <div>
-                        <span class="order-card__type">${order.type === 'delivery' ? 'Доставка' : 'С собой'}</span>
-                    </div>
+                    <div><span class="order-card__type">${order.type === 'delivery' ? 'Доставка' : 'С собой'}</span></div>
                     <div class="order-card__customer">${order.name} | ${order.phone}</div>
                     <div class="order-card__items">${order.items}</div>
                     <div class="order-card__total">${order.total} ₽</div>
                     ${order.address ? `<div class="order-card__address">${order.address}</div>` : ''}
                     <div class="order-card__bottom">
-                        <span class="order-card__status ${order.status}">
-                            ${order.status === 'processing' ? 'В обработке' : 'Принят'}
-                        </span>
+                        <span class="order-card__status ${order.status}">${order.status === 'processing' ? 'В обработке' : 'Принят'}</span>
                         ${order.status === 'processing' ? `
-                            <button class="order-card__btn accept" onclick="acceptOrder(${order.id})">
-                                Принять заказ
-                            </button>
-                        ` : `
-                            <span style="font-size:12px; color:var(--text-muted);">Заказ принят</span>
-                        `}
+                            <button class="order-card__btn accept" onclick="acceptOrder(${order.id})">Принять заказ</button>
+                        ` : `<span style="font-size:12px;color:var(--text-muted);">Заказ принят</span>`}
                     </div>
                 </div>
             `).join('');
         }
-
         function acceptOrder(orderId) {
             const orders = getOrders();
             const order = orders.find(o => o.id === orderId);
-            if (order) {
-                order.status = 'accepted';
-                saveOrders(orders);
-                renderOrders();
-                playNotificationSound();
-            }
+            if (order) { order.status = 'accepted'; saveOrders(orders); renderOrders(); playNotificationSound(); }
         }
-
         function playNotificationSound() {
             try {
                 const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.frequency.value = 880;
-                osc.type = 'sine';
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.frequency.value = 880; osc.type = 'sine';
                 gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.3);
+                osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.3);
                 setTimeout(() => {
                     const osc2 = audioCtx.createOscillator();
                     const gain2 = audioCtx.createGain();
-                    osc2.connect(gain2);
-                    gain2.connect(audioCtx.destination);
-                    osc2.frequency.value = 1100;
-                    osc2.type = 'sine';
+                    osc2.connect(gain2); gain2.connect(audioCtx.destination);
+                    osc2.frequency.value = 1100; osc2.type = 'sine';
                     gain2.gain.setValueAtTime(0.2, audioCtx.currentTime);
                     gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-                    osc2.start(audioCtx.currentTime);
-                    osc2.stop(audioCtx.currentTime + 0.15);
+                    osc2.start(audioCtx.currentTime); osc2.stop(audioCtx.currentTime + 0.15);
                 }, 150);
-            } catch (e) {}
+            } catch(e) {}
         }
-
         function requestNotificationPermission() {
             if ('Notification' in window) {
                 Notification.requestPermission().then(permission => {
@@ -695,9 +573,7 @@
                 });
             }
         }
-
         document.getElementById('enableNotifBtn').addEventListener('click', requestNotificationPermission);
-
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -706,91 +582,68 @@
                 renderOrders();
             });
         });
-
         document.getElementById('loginBtn').addEventListener('click', function() {
             const password = document.getElementById('adminPassword').value.trim();
             if (password === ADMIN_PASSWORD) {
                 document.getElementById('loginOverlay').classList.add('hidden');
                 document.getElementById('adminPanel').classList.add('open');
                 renderOrders();
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('/sw.js').catch(() => {});
-                }
+                if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(() => {}); }
                 if ('Notification' in window && Notification.permission === 'granted') {
                     document.getElementById('notifBanner').style.display = 'none';
                 }
-                // Сохраняем состояние в localStorage чтобы не вводить пароль при обновлении
-                try {
-                    localStorage.setItem('amurAdminAuth', 'true');
-                } catch(e) {}
+                try { localStorage.setItem('amurAdminAuth', 'true'); } catch(e) {}
             } else {
                 document.getElementById('loginError').classList.add('show');
                 document.getElementById('adminPassword').value = '';
                 document.getElementById('adminPassword').focus();
             }
         });
-
         document.getElementById('adminPassword').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') document.getElementById('loginBtn').click();
         });
-
         let lastOrderCount = 0;
-
         function checkNewOrders() {
             const orders = getOrders();
             const processingCount = orders.filter(o => o.status === 'processing').length;
             if (processingCount > lastOrderCount) {
                 playNotificationSound();
-                if ('Notification' in window && Notification.permission === 'granted') {
-                    if ('serviceWorker' in navigator) {
-                        navigator.serviceWorker.ready.then(reg => {
-                            reg.showNotification('Новый заказ!', {
-                                body: 'Поступил новый заказ',
-                                icon: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
-                                badge: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
-                                vibrate: [200, 100, 200],
-                                tag: 'new-order',
-                                renotify: true,
-                                requireInteraction: true,
-                                data: { url: '/admin.html' }
-                            });
+                if ('Notification' in window && Notification.permission === 'granted' && 'serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(reg => {
+                        reg.showNotification('Новый заказ!', {
+                            body: 'Поступил новый заказ',
+                            icon: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
+                            badge: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
+                            vibrate: [200,100,200],
+                            tag: 'new-order',
+                            renotify: true,
+                            requireInteraction: true,
+                            data: { url: '/admin.html' }
                         });
-                    }
+                    });
                 }
                 renderOrders();
             }
             lastOrderCount = processingCount;
         }
-
         setInterval(checkNewOrders, 3000);
-
-        function goToMain() {
-            window.location.href = '/';
-        }
-
-        // Проверка сохранённой сессии
         (function() {
             try {
-                const auth = localStorage.getItem('amurAdminAuth');
-                if (auth === 'true') {
+                if (localStorage.getItem('amurAdminAuth') === 'true') {
                     document.getElementById('loginOverlay').classList.add('hidden');
                     document.getElementById('adminPanel').classList.add('open');
                     renderOrders();
-                    if ('serviceWorker' in navigator) {
-                        navigator.serviceWorker.register('/sw.js').catch(() => {});
-                    }
+                    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(() => {}); }
                     if ('Notification' in window && Notification.permission === 'granted') {
                         document.getElementById('notifBanner').style.display = 'none';
                     }
                 }
             } catch(e) {}
         })();
-
         setTimeout(() => {
             const orders = getOrders();
             lastOrderCount = orders.filter(o => o.status === 'processing').length;
         }, 100);
     </script>
-
 </body>
 </html>
