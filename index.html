@@ -947,7 +947,6 @@
         }
         .cafe-info__row strong { color: var(--olive-dark); }
 
-        /* ===== КАРТА ТОЛЬКО ДЛЯ "С СОБОЙ" ===== */
         .pickup-map {
             border-radius: var(--radius-sm);
             overflow: hidden;
@@ -1024,6 +1023,7 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 8px;
+            margin-bottom: 80px;
         }
         .info-block__item {
             display: flex;
@@ -1197,6 +1197,7 @@
             .header__orders { padding: 10px 20px 10px 14px; font-size: 14px; }
             .header__orders svg { width: 18px; height: 18px; }
             .category__title { font-size: 24px; padding-top: 12px; }
+            .info-block { margin-bottom: 100px; }
         }
 
         @media (min-width: 900px) {
@@ -1233,6 +1234,7 @@
                 border-radius: 24px;
             }
             .product { min-height: 380px; }
+            .info-block { margin-bottom: 120px; }
         }
 
         @media (min-width: 1200px) {
@@ -1242,6 +1244,7 @@
             .product__name { font-size: 15px; min-height: 40px; }
             .pickup-map iframe { height: 180px; }
             .product { min-height: 400px; }
+            .info-block { margin-bottom: 140px; }
         }
 
         @media (max-width: 480px) {
@@ -1290,7 +1293,7 @@
             .floating-cart__total { font-size: 14px; }
             .floating-cart__icon { width: 24px; height: 24px; }
             .floating-cart__icon svg { width: 14px; height: 14px; }
-            .info-block { padding: 12px 14px; }
+            .info-block { padding: 12px 14px; margin-bottom: 70px; }
             .info-block__item { font-size: 11px; }
             .product { min-height: 240px; }
             .user-orders-modal { padding: 12px 14px 14px; }
@@ -1320,7 +1323,6 @@
             </button>
         </div>
 
-        <!-- Табы по центру -->
         <div class="tabs-wrapper">
             <nav class="tabs" id="tabs">
                 <button class="tab-btn active" data-category="burgers">Бургеры</button>
@@ -1392,7 +1394,7 @@
         </section>
 
         <div class="info-block">
-            <div class="info-block__halal">✅ Все блюда Халяль (HALAL)</div>
+            <div class="info-block__halal">Все блюда Халяль (HALAL)</div>
             <div class="info-block__divider"></div>
             <div class="info-block__item">
                 <strong>Часы работы:</strong> 10:00 — 23:00
@@ -1475,25 +1477,22 @@
                 </div>
 
                 <div class="order-type" id="orderType">
-                    <button class="order-type__btn active" data-type="delivery">🚚 Доставка</button>
-                    <button class="order-type__btn" data-type="pickup">🏃 С собой</button>
+                    <button class="order-type__btn active" data-type="delivery">Доставка</button>
+                    <button class="order-type__btn" data-type="pickup">С собой</button>
                 </div>
 
                 <form class="cart-modal__form" id="orderForm">
                     <input type="text" id="orderName" placeholder="Ваше имя" required>
                     <input type="tel" id="orderPhone" placeholder="Номер телефона" required>
 
-                    <!-- ===== ДОСТАВКА (БЕЗ КАРТЫ) ===== -->
                     <div id="deliveryFields">
                         <input type="text" id="orderStreet" placeholder="Улица, дом">
                         <input type="text" id="orderApartment" placeholder="Кв./Офис">
                         <input type="text" id="orderFloor" placeholder="Этаж">
                         <input type="text" id="orderEntrance" placeholder="Подъезд">
                         <textarea id="orderComment" placeholder="Комментарий к адресу" rows="2"></textarea>
-                        <!-- КАРТЫ ЗДЕСЬ НЕТ! -->
                     </div>
 
-                    <!-- ===== С СОБОЙ (С КАРТОЙ) ===== -->
                     <div id="pickupFields" class="hidden">
                         <div class="cafe-info" style="margin-top:0;">
                             <div class="cafe-info__row">
@@ -1510,7 +1509,6 @@
                             </div>
                         </div>
 
-                        <!-- КАРТА ТОЛЬКО ЗДЕСЬ! -->
                         <div class="pickup-map">
                             <iframe src="https://yandex.ru/map-widget/v1/?ll=43.594117,43.488945&z=17&pt=43.594117,43.488945~red" allowfullscreen="true" loading="lazy">
                             </iframe>
@@ -1560,7 +1558,7 @@
                 const data = await response.json();
                 return Array.isArray(data.record) ? data.record : [];
             } catch (error) {
-                console.error('❌ Ошибка получения заказов:', error);
+                console.error('Ошибка получения заказов:', error);
                 return [];
             }
         }
@@ -1588,10 +1586,10 @@
                     return false;
                 }
                 
-                console.log('✅ Заказ сохранён в облаке');
+                console.log('Заказ сохранён в облаке');
                 return true;
             } catch (error) {
-                console.error('❌ Ошибка сохранения заказа:', error);
+                console.error('Ошибка сохранения заказа:', error);
                 return false;
             }
         }
@@ -2197,7 +2195,7 @@
                     </div>
                     <div>
                         <span class="user-order-item__status ${order.status}">
-                            ${order.status === 'processing' ? '⏳ В обработке' : '✅ Принят'}
+                            ${order.status === 'processing' ? 'В обработке' : 'Принят'}
                         </span>
                     </div>
                     <div class="user-order-item__details">${order.items}</div>
@@ -2218,7 +2216,7 @@
 
             if (!name || !phone) {
                 status.className = 'cart-modal__status error';
-                status.textContent = '❌ Пожалуйста, заполните имя и телефон';
+                status.textContent = 'Пожалуйста, заполните имя и телефон';
                 return;
             }
 
@@ -2226,7 +2224,7 @@
 
             if (Object.keys(cart).length === 0) {
                 status.className = 'cart-modal__status error';
-                status.textContent = '❌ Корзина пуста';
+                status.textContent = 'Корзина пуста';
                 return;
             }
 
@@ -2268,7 +2266,7 @@
             saveOrderToCloud(orderData).then(async (success) => {
                 if (success) {
                     status.className = 'cart-modal__status success';
-                    status.textContent = '✅ Заказ отправлен! Мы свяжемся с вами.';
+                    status.textContent = 'Заказ отправлен! Мы свяжемся с вами.';
                     
                     cart = {};
                     selectedSizeCache = {};
@@ -2283,7 +2281,7 @@
                     }, 2000);
                 } else {
                     status.className = 'cart-modal__status error';
-                    status.textContent = '❌ Ошибка отправки заказа. Попробуйте ещё раз.';
+                    status.textContent = 'Ошибка отправки заказа. Попробуйте ещё раз.';
                 }
                 
                 submitBtn.disabled = false;
@@ -2307,11 +2305,8 @@
             navigator.serviceWorker.register('/sw.js').catch(() => {});
         }
 
-        console.log('✅ Amur Burgers загружен');
-        console.log('🔑 Пароль для входа в админку: Amur_amur1@');
-        console.log('☁️ Заказы синхронизируются через JSONBin.io');
-        console.log('👤 Пользователи видят только свои заказы');
-        console.log('🗺️ Карта ТОЛЬКО в разделе "С собой"');
+        console.log('Amur Burgers загружен');
+        console.log('Пароль для входа в админку: Amur_amur1@');
     </script>
 </body>
 </html>
