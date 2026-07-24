@@ -963,7 +963,7 @@
         }
         .cafe-info__row strong { color: var(--olive-dark); }
 
-        /* ============ КАРТА ТОЛЬКО В РАЗДЕЛЕ "С СОБОЙ" ============ */
+        /* ============ КАРТА ТОЛЬКО ДЛЯ "С СОБОЙ" ============ */
         .pickup-map {
             border-radius: var(--radius-sm);
             overflow: hidden;
@@ -981,11 +981,6 @@
             color: var(--text-muted);
             text-align: center;
             padding: 2px 0 4px;
-        }
-
-        /* ============ В РАЗДЕЛЕ "ДОСТАВКА" КАРТЫ НЕТ ============ */
-        #deliveryFields .pickup-map {
-            display: none !important;
         }
 
         .cart-modal__submit {
@@ -1344,12 +1339,6 @@
             .map-section__title { font-size: 13px; padding: 8px 12px; }
             .info-block__halal { font-size: 11px; padding: 3px 12px; }
         }
-
-        /* Скрываем карту в доставке через CSS */
-        #deliveryFields .pickup-map,
-        #deliveryFields .pickup-map__label {
-            display: none !important;
-        }
     </style>
 </head>
 <body>
@@ -1550,6 +1539,7 @@
                         <input type="text" id="orderFloor" placeholder="Этаж">
                         <input type="text" id="orderEntrance" placeholder="Подъезд">
                         <textarea id="orderComment" placeholder="Комментарий к адресу" rows="2"></textarea>
+                        <!-- КАРТЫ ЗДЕСЬ НЕТ! -->
                     </div>
 
                     <!-- ===== С СОБОЙ (С КАРТОЙ) ===== -->
@@ -1569,7 +1559,7 @@
                             </div>
                         </div>
 
-                        <!-- Карта только здесь! -->
+                        <!-- КАРТА ТОЛЬКО ЗДЕСЬ! -->
                         <div class="pickup-map">
                             <iframe src="https://yandex.ru/map-widget/v1/?ll=43.594117,43.488945&z=17&pt=43.594117,43.488945~red" allowfullscreen="true" loading="lazy">
                             </iframe>
@@ -1595,7 +1585,7 @@
         const JSONBIN_API_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
         // ============================================================
-        //  РАБОТА С JSONBin - ИСПРАВЛЕННАЯ ВЕРСИЯ!
+        //  РАБОТА С JSONBin
         // ============================================================
         async function getOrdersFromCloud() {
             try {
@@ -1617,7 +1607,6 @@
                 }
                 
                 const data = await response.json();
-                // Убеждаемся, что возвращаем массив
                 return Array.isArray(data.record) ? data.record : [];
             } catch (error) {
                 console.error('❌ Ошибка получения заказов:', error);
@@ -1627,16 +1616,12 @@
 
         async function saveOrderToCloud(orderData) {
             try {
-                // 1. Получаем текущие заказы (всегда массив)
                 let currentOrders = await getOrdersFromCloud();
                 if (!Array.isArray(currentOrders)) {
                     currentOrders = [];
                 }
-                
-                // 2. Добавляем новый заказ в начало
                 currentOrders.unshift(orderData);
                 
-                // 3. Сохраняем обратно
                 const response = await fetch(JSONBIN_API_URL, {
                     method: 'PUT',
                     headers: {
@@ -1661,7 +1646,7 @@
         }
 
         // ============================================================
-        //  МЕНЮ (полное меню - сокращено для экономии места)
+        //  МЕНЮ (полное)
         // ============================================================
         const menuData = {
             burgers: [
@@ -1741,7 +1726,7 @@
         let overlaySelectedSize = 'small';
 
         // ============================================================
-        //  ТРОЙНОЙ КЛИК ДЛЯ АДМИНКИ (ПАРОЛЬ: Amur_amur1@)
+        //  ТРОЙНОЙ КЛИК ДЛЯ АДМИНКИ
         // ============================================================
         let clickCount = 0;
         let clickTimer = null;
@@ -2174,7 +2159,7 @@
         });
 
         // ============================================================
-        //  ЗАКАЗЫ (ДЛЯ ПОЛЬЗОВАТЕЛЕЙ — ТОЛЬКО СВОИ)
+        //  ПЕРЕКЛЮЧЕНИЕ МЕЖДУ ДОСТАВКОЙ И САМОВЫВОЗОМ (С КАРТОЙ)
         // ============================================================
         document.querySelectorAll('.order-type__btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -2183,6 +2168,7 @@
                 orderType = this.dataset.type;
                 const deliveryFields = document.getElementById('deliveryFields');
                 const pickupFields = document.getElementById('pickupFields');
+                
                 if (orderType === 'delivery') {
                     deliveryFields.style.display = 'block';
                     pickupFields.classList.add('hidden');
@@ -2193,6 +2179,9 @@
             });
         });
 
+        // ============================================================
+        //  ЗАКАЗЫ (ДЛЯ ПОЛЬЗОВАТЕЛЕЙ — ТОЛЬКО СВОИ)
+        // ============================================================
         function updateBadges() {
             const userPhone = localStorage.getItem('amurUserPhone');
             if (!userPhone) {
@@ -2267,7 +2256,7 @@
         }
 
         // ============================================================
-        //  ОТПРАВКА ЗАКАЗА - ИСПРАВЛЕННАЯ ВЕРСИЯ!
+        //  ОТПРАВКА ЗАКАЗА
         // ============================================================
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -2325,7 +2314,6 @@
                 date: new Date().toISOString()
             };
 
-            // ----- ИСПРАВЛЕННАЯ ОТПРАВКА -----
             saveOrderToCloud(orderData).then(async (success) => {
                 if (success) {
                     status.className = 'cart-modal__status success';
@@ -2360,7 +2348,6 @@
         updateUI();
         updateBadges();
 
-        // Периодически обновляем бейдж для пользователя
         setInterval(() => {
             updateBadges();
         }, 10000);
