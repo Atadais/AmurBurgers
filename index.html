@@ -33,9 +33,7 @@
             --transition: all 0.25s ease;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
@@ -56,49 +54,32 @@
             left: 0;
         }
 
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--olive);
-            border-radius: 10px;
-        }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--olive); border-radius: 10px; }
 
-        img {
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
-        button {
-            font: inherit;
-            cursor: pointer;
-            border: none;
-            outline: none;
-            background: none;
-            color: inherit;
-        }
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        img { display: block; max-width: 100%; height: auto; }
+        button { font: inherit; cursor: pointer; border: none; outline: none; background: none; color: inherit; }
+        a { color: inherit; text-decoration: none; }
 
-        .header {
+        /* ============ ШАПКА С ТАБАМИ ============ */
+        .header-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            background: rgba(245, 240, 235, 0.92);
+            background: rgba(245, 240, 235, 0.95);
             backdrop-filter: blur(12px);
-            padding: 12px 20px;
+            padding: 8px 16px 10px;
+        }
+
+        .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid var(--olive);
-            height: 56px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
         .header__logo {
@@ -108,11 +89,10 @@
             cursor: pointer;
             user-select: none;
             transition: opacity 0.2s ease, transform 0.2s ease;
+            flex-shrink: 0;
             position: relative;
         }
-        .header__logo:active {
-            opacity: 0.6;
-        }
+        .header__logo:active { opacity: 0.6; }
 
         .header__logo-icon {
             width: 36px;
@@ -136,9 +116,24 @@
             letter-spacing: -0.5px;
             pointer-events: none;
         }
-        .header__logo-text span {
-            color: var(--gold);
+        .header__logo-text span { color: var(--gold); }
+
+        .header__logo .click-hint {
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 7px;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+            background: rgba(0,0,0,0.04);
+            padding: 0 6px;
+            border-radius: 8px;
         }
+        .header__logo:hover .click-hint { opacity: 0.7; }
 
         .header__orders {
             display: flex;
@@ -153,14 +148,10 @@
             transition: var(--transition);
             border: 2px solid rgba(44, 24, 16, 0.06);
             box-shadow: var(--shadow);
+            flex-shrink: 0;
         }
-        .header__orders:active {
-            transform: scale(0.95);
-        }
-        .header__orders svg {
-            width: 16px;
-            height: 16px;
-        }
+        .header__orders:active { transform: scale(0.95); }
+        .header__orders svg { width: 16px; height: 16px; }
 
         .header__orders-badge {
             background: var(--gold);
@@ -172,48 +163,20 @@
             margin-left: 2px;
         }
 
-        /* Подсказка для тройного клика */
-        .header__logo .click-hint {
-            position: absolute;
-            bottom: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 8px;
-            color: var(--text-muted);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            white-space: nowrap;
-            pointer-events: none;
-            background: rgba(0,0,0,0.05);
-            padding: 0 8px;
-            border-radius: 10px;
-        }
-        .header__logo:hover .click-hint {
-            opacity: 0.7;
-        }
-
+        /* ============ ТАБЫ ПО ЦЕНТРУ ============ */
         .tabs-wrapper {
-            position: sticky;
-            top: 56px;
-            left: 0;
-            right: 0;
-            z-index: 99;
-            background: rgba(245, 240, 235, 0.96);
-            backdrop-filter: blur(12px);
-            padding: 8px 16px 12px;
-            border-bottom: 2px solid var(--olive);
-            min-height: 48px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6px 0 0;
             overflow: visible;
         }
 
         .tabs {
-            max-width: 1100px;
-            margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 5px;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
         }
 
         .tab-btn {
@@ -234,32 +197,22 @@
             color: #fff;
             border-color: var(--olive);
         }
-        .tab-btn:active {
-            transform: scale(0.94);
-        }
+        .tab-btn:active { transform: scale(0.94); }
 
         .main {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 116px 16px 30px;
+            padding: 100px 16px 30px;
         }
 
         .category {
             display: none;
             animation: fadeIn 0.3s ease;
         }
-        .category.active {
-            display: block;
-        }
+        .category.active { display: block; }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .category__title {
@@ -269,9 +222,7 @@
             margin-bottom: 2px;
             color: var(--olive-dark);
         }
-        .category__title span {
-            color: var(--gold);
-        }
+        .category__title span { color: var(--gold); }
 
         .category__sub {
             font-size: 12px;
@@ -305,9 +256,7 @@
             height: 100%;
             min-height: 320px;
         }
-        .product:active {
-            transform: scale(0.97);
-        }
+        .product:active { transform: scale(0.97); }
         .product:hover {
             box-shadow: var(--shadow-hover);
             border-color: rgba(44, 24, 16, 0.08);
@@ -328,9 +277,7 @@
             object-fit: cover;
             transition: var(--transition);
         }
-        .product:hover .product__image img {
-            transform: scale(1.03);
-        }
+        .product:hover .product__image img { transform: scale(1.03); }
 
         .product__body {
             padding: 12px 14px 14px;
@@ -383,9 +330,7 @@
             color: #fff;
             border-color: var(--olive);
         }
-        .product__size-btn:active {
-            transform: scale(0.94);
-        }
+        .product__size-btn:active { transform: scale(0.94); }
 
         .product__variant-select {
             display: flex;
@@ -410,14 +355,9 @@
             color: #fff;
             border-color: var(--olive);
         }
-        .product__variant-btn:active {
-            transform: scale(0.94);
-        }
+        .product__variant-btn:active { transform: scale(0.94); }
 
-        .product__size-placeholder {
-            min-height: 24px;
-            margin: 2px 0 2px;
-        }
+        .product__size-placeholder { min-height: 24px; margin: 2px 0 2px; }
 
         .product__actions {
             display: flex;
@@ -445,17 +385,13 @@
             align-items: center;
             justify-content: center;
         }
-        .product__btn:active {
-            transform: scale(0.94);
-        }
+        .product__btn:active { transform: scale(0.94); }
         .product__btn.primary {
             background: var(--gold);
             color: var(--olive-dark);
             border-color: var(--gold);
         }
-        .product__btn.primary:active {
-            background: var(--gold-light);
-        }
+        .product__btn.primary:active { background: var(--gold-light); }
         .product__btn.in-cart {
             background: var(--olive);
             color: #fff;
@@ -485,9 +421,7 @@
             border: 2px solid rgba(44, 24, 16, 0.06);
             cursor: pointer;
         }
-        .product__qty-control button:active {
-            transform: scale(0.88);
-        }
+        .product__qty-control button:active { transform: scale(0.88); }
         .product__qty-control span {
             font-weight: 600;
             font-size: 14px;
@@ -496,6 +430,7 @@
             color: var(--olive-dark);
         }
 
+        /* ============ ОВЕРЛЕЙ ТОВАРА ============ */
         .product-overlay {
             position: fixed;
             inset: 0;
@@ -530,9 +465,7 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
-        .product-overlay__content::-webkit-scrollbar {
-            display: none;
-        }
+        .product-overlay__content::-webkit-scrollbar { display: none; }
         .product-overlay.open .product-overlay__content {
             transform: scale(1) translateY(0);
             opacity: 1;
@@ -570,9 +503,7 @@
             border: none;
             cursor: pointer;
         }
-        .product-overlay__close:active {
-            transform: scale(0.88);
-        }
+        .product-overlay__close:active { transform: scale(0.88); }
 
         .product-overlay__body {
             padding: 20px 20px 24px;
@@ -670,9 +601,7 @@
             border: 2px solid rgba(44, 24, 16, 0.06);
             cursor: pointer;
         }
-        .product-overlay__qty-control button:active {
-            transform: scale(0.88);
-        }
+        .product-overlay__qty-control button:active { transform: scale(0.88); }
         .product-overlay__qty-control span {
             font-weight: 600;
             font-size: 17px;
@@ -700,23 +629,20 @@
             border: 2px solid rgba(44, 24, 16, 0.06);
             cursor: pointer;
         }
-        .product-overlay__btn:active {
-            transform: scale(0.94);
-        }
+        .product-overlay__btn:active { transform: scale(0.94); }
         .product-overlay__btn.primary {
             background: var(--gold);
             color: var(--olive-dark);
             border-color: var(--gold);
         }
-        .product-overlay__btn.primary:active {
-            background: var(--gold-light);
-        }
+        .product-overlay__btn.primary:active { background: var(--gold-light); }
         .product-overlay__btn.in-cart {
             background: var(--olive);
             color: #fff;
             border-color: var(--olive);
         }
 
+        /* ============ КОРЗИНА ============ */
         .floating-cart {
             position: fixed;
             bottom: 20px;
@@ -740,9 +666,7 @@
             transform: translateY(0);
             opacity: 1;
         }
-        .floating-cart:active {
-            transform: scale(0.97);
-        }
+        .floating-cart:active { transform: scale(0.97); }
 
         .floating-cart__left {
             display: flex;
@@ -759,10 +683,7 @@
             justify-content: center;
             color: #fff;
         }
-        .floating-cart__icon svg {
-            width: 16px;
-            height: 16px;
-        }
+        .floating-cart__icon svg { width: 16px; height: 16px; }
         .floating-cart__label {
             font-weight: 700;
             font-size: 13px;
@@ -793,9 +714,7 @@
             align-items: flex-end;
             justify-content: center;
         }
-        .cart-overlay.open {
-            display: flex;
-        }
+        .cart-overlay.open { display: flex; }
 
         .cart-modal {
             background: var(--card);
@@ -811,14 +730,8 @@
             border-top: 2px solid var(--olive);
         }
         @keyframes slideCart {
-            from {
-                transform: translateY(40px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .cart-modal__header {
@@ -826,7 +739,6 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 12px;
-            border-bottom: 2px solid var(--olive);
             flex-shrink: 0;
             background: var(--card);
             z-index: 2;
@@ -849,9 +761,7 @@
             color: var(--text-muted);
             border: 2px solid rgba(44, 24, 16, 0.06);
         }
-        .cart-modal__close:active {
-            transform: scale(0.88);
-        }
+        .cart-modal__close:active { transform: scale(0.88); }
 
         .cart-modal__items {
             overflow-y: auto;
@@ -864,9 +774,7 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
-        .cart-modal__items::-webkit-scrollbar {
-            display: none;
-        }
+        .cart-modal__items::-webkit-scrollbar { display: none; }
 
         .cart-item {
             display: flex;
@@ -935,9 +843,7 @@
             border: 2px solid rgba(44, 24, 16, 0.06);
             cursor: pointer;
         }
-        .cart-item__qty button:active {
-            transform: scale(0.88);
-        }
+        .cart-item__qty button:active { transform: scale(0.88); }
         .cart-item__qty span {
             font-weight: 600;
             font-size: 13px;
@@ -966,7 +872,6 @@
         }
 
         .cart-modal__footer {
-            border-top: 2px solid var(--olive);
             padding-top: 12px;
             padding-bottom: 8px;
             flex-shrink: 0;
@@ -977,9 +882,7 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
-        .cart-modal__footer::-webkit-scrollbar {
-            display: none;
-        }
+        .cart-modal__footer::-webkit-scrollbar { display: none; }
 
         .cart-modal__total {
             display: flex;
@@ -1035,9 +938,7 @@
             font-family: inherit;
         }
         .cart-modal__form input::placeholder,
-        .cart-modal__form textarea::placeholder {
-            color: var(--text-muted);
-        }
+        .cart-modal__form textarea::placeholder { color: var(--text-muted); }
         .cart-modal__form input:focus,
         .cart-modal__form textarea:focus {
             border-color: var(--olive);
@@ -1065,9 +966,7 @@
             padding: 1px 0;
             color: var(--text-muted);
         }
-        .cafe-info__row strong {
-            color: var(--olive-dark);
-        }
+        .cafe-info__row strong { color: var(--olive-dark); }
 
         .pickup-map {
             border-radius: var(--radius-sm);
@@ -1193,13 +1092,10 @@
             font-weight: 700;
             font-size: 16px;
             color: var(--olive-dark);
-            border-bottom: 2px solid var(--olive);
             text-align: center;
             letter-spacing: -0.3px;
         }
-        .map-section__title span {
-            color: var(--gold);
-        }
+        .map-section__title span { color: var(--gold); }
 
         .user-orders-overlay {
             position: fixed;
@@ -1212,9 +1108,7 @@
             justify-content: center;
             padding: 20px;
         }
-        .user-orders-overlay.open {
-            display: flex;
-        }
+        .user-orders-overlay.open { display: flex; }
 
         .user-orders-modal {
             background: var(--card);
@@ -1234,7 +1128,6 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 12px;
-            border-bottom: 2px solid var(--olive);
             flex-shrink: 0;
         }
         .user-orders-modal__title {
@@ -1255,9 +1148,7 @@
             color: var(--text-muted);
             border: 2px solid rgba(44, 24, 16, 0.06);
         }
-        .user-orders-modal__close:active {
-            transform: scale(0.88);
-        }
+        .user-orders-modal__close:active { transform: scale(0.88); }
 
         .user-orders-modal__body {
             flex: 1;
@@ -1266,9 +1157,7 @@
             scrollbar-width: thin;
             scrollbar-color: var(--olive) transparent;
         }
-        .user-orders-modal__body::-webkit-scrollbar {
-            width: 4px;
-        }
+        .user-orders-modal__body::-webkit-scrollbar { width: 4px; }
         .user-orders-modal__body::-webkit-scrollbar-thumb {
             background: var(--olive);
             border-radius: 10px;
@@ -1330,108 +1219,31 @@
             font-size: 14px;
         }
 
-        /* Скрытая кнопка для админки */
-        .admin-secret-btn {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            z-index: 9999;
-            opacity: 0.08;
-            font-size: 14px;
-            transition: opacity 0.3s ease;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-        }
-        .admin-secret-btn:hover {
-            opacity: 0.5;
-            background: rgba(0,0,0,0.05);
-        }
-
+        /* ============ АДАПТИВ ============ */
         @media (min-width: 600px) {
-            .products {
-                gap: 16px;
-            }
-            .product__name {
-                font-size: 14px;
-                min-height: 36px;
-            }
-            .product__body {
-                padding: 14px 16px 16px;
-            }
-            .cart-modal__items {
-                max-height: 170px;
-            }
-            .cart-modal__footer {
-                max-height: calc(95vh - 190px - 60px);
-            }
-            .floating-cart {
-                left: 24px;
-                right: 24px;
-                padding: 14px 22px;
-            }
-            .pickup-map iframe {
-                height: 150px;
-            }
-            .product {
-                min-height: 360px;
-            }
+            .products { gap: 16px; }
+            .product__name { font-size: 14px; min-height: 36px; }
+            .product__body { padding: 14px 16px 16px; }
+            .cart-modal__items { max-height: 170px; }
+            .cart-modal__footer { max-height: calc(95vh - 190px - 60px); }
+            .floating-cart { left: 24px; right: 24px; padding: 14px 22px; }
+            .pickup-map iframe { height: 150px; }
+            .product { min-height: 360px; }
+            .tab-btn { padding: 6px 18px; font-size: 12px; }
         }
 
         @media (min-width: 900px) {
-            .products {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-            }
-            .header {
-                padding: 14px 32px;
-                height: 60px;
-            }
-            .header__logo-icon {
-                width: 42px;
-                height: 42px;
-                font-size: 16px;
-            }
-            .header__logo-text {
-                font-size: 22px;
-            }
-            .header__orders {
-                padding: 8px 18px 8px 14px;
-                font-size: 13px;
-            }
-            .tabs-wrapper {
-                top: 60px;
-                padding: 10px 32px 14px;
-                min-height: 54px;
-            }
-            .tab-btn {
-                padding: 7px 22px;
-                font-size: 13px;
-            }
-            .main {
-                padding: 126px 32px 40px;
-            }
-            .category__title {
-                font-size: 30px;
-            }
-            .product__name {
-                font-size: 15px;
-                min-height: 40px;
-            }
-            .product__price {
-                font-size: 18px;
-            }
-            .product__btn {
-                padding: 10px 0;
-                font-size: 12px;
-            }
+            .products { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+            .header-wrapper { padding: 12px 32px 14px; }
+            .header__logo-icon { width: 42px; height: 42px; font-size: 16px; }
+            .header__logo-text { font-size: 22px; }
+            .header__orders { padding: 8px 18px 8px 14px; font-size: 13px; }
+            .tab-btn { padding: 8px 24px; font-size: 13px; }
+            .main { padding: 120px 32px 40px; }
+            .category__title { font-size: 30px; }
+            .product__name { font-size: 15px; min-height: 40px; }
+            .product__price { font-size: 18px; }
+            .product__btn { padding: 10px 0; font-size: 12px; }
             .cart-modal {
                 border-radius: var(--radius);
                 margin-bottom: 20px;
@@ -1439,25 +1251,12 @@
                 padding: 24px 28px 28px;
                 max-width: 600px;
             }
-            .cart-overlay {
-                align-items: center;
-            }
-            .cart-modal__items {
-                max-height: 190px;
-            }
-            .cart-modal__footer {
-                max-height: calc(95vh - 210px - 60px);
-            }
-            .map-section iframe {
-                height: 400px;
-            }
-            .pickup-map iframe {
-                height: 190px;
-            }
-            .cart-item__image {
-                width: 44px;
-                height: 44px;
-            }
+            .cart-overlay { align-items: center; }
+            .cart-modal__items { max-height: 190px; }
+            .cart-modal__footer { max-height: calc(95vh - 210px - 60px); }
+            .map-section iframe { height: 400px; }
+            .pickup-map iframe { height: 190px; }
+            .cart-item__image { width: 44px; height: 44px; }
             .floating-cart {
                 left: 32px;
                 right: 32px;
@@ -1466,242 +1265,110 @@
                 padding: 16px 26px;
                 border-radius: 18px;
             }
-            .product {
-                min-height: 400px;
-            }
+            .product { min-height: 400px; }
         }
 
         @media (min-width: 1200px) {
-            .products {
-                gap: 24px;
-            }
-            .main {
-                padding: 132px 40px 50px;
-            }
-            .product__body {
-                padding: 18px 20px 20px;
-            }
-            .product__name {
-                font-size: 16px;
-                min-height: 44px;
-            }
-            .map-section iframe {
-                height: 450px;
-            }
-            .pickup-map iframe {
-                height: 210px;
-            }
-            .product {
-                min-height: 420px;
-            }
+            .products { gap: 24px; }
+            .main { padding: 126px 40px 50px; }
+            .product__body { padding: 18px 20px 20px; }
+            .product__name { font-size: 16px; min-height: 44px; }
+            .map-section iframe { height: 450px; }
+            .pickup-map iframe { height: 210px; }
+            .product { min-height: 420px; }
         }
 
         @media (max-width: 480px) {
-            .header {
-                padding: 8px 14px;
-                height: 48px;
-            }
-            .header__logo-icon {
-                width: 30px;
-                height: 30px;
-                font-size: 11px;
-            }
-            .header__logo-text {
-                font-size: 14px;
-            }
-            .header__orders {
-                padding: 4px 10px 4px 8px;
-                font-size: 10px;
-            }
-            .header__orders svg {
-                width: 14px;
-                height: 14px;
-            }
-            .header__orders-badge {
-                font-size: 8px;
-                padding: 0 6px;
-            }
-            .tabs-wrapper {
-                top: 48px;
-                padding: 6px 12px 10px;
-                min-height: 44px;
-            }
-            .tab-btn {
-                padding: 4px 12px;
-                font-size: 10px;
-            }
-            .main {
-                padding: 104px 12px 30px;
-            }
-            .category__title {
-                font-size: 20px;
-            }
-            .cart-modal {
-                padding: 14px 16px 16px;
-                max-height: 95vh;
-                max-width: 100%;
-            }
-            .cart-modal__items {
-                max-height: 120px;
-                padding: 8px 0 10px;
-                gap: 6px;
-            }
-            .cart-modal__footer {
-                max-height: calc(95vh - 140px - 55px);
-                padding-top: 10px;
-            }
-            .cart-item {
-                padding: 6px 10px;
-                gap: 8px;
-            }
-            .cart-item__image {
-                width: 32px;
-                height: 32px;
-            }
-            .cart-item__name {
-                font-size: 12px;
-            }
-            .cart-item__price {
-                font-size: 11px;
-            }
-            .cart-item__qty button {
-                width: 20px;
-                height: 20px;
-                font-size: 11px;
-            }
-            .cart-item__qty span {
-                font-size: 12px;
-                min-width: 14px;
-            }
-            .cart-item__remove {
-                font-size: 12px;
-            }
-            .cart-modal__title {
-                font-size: 16px;
-            }
-            .cart-modal__total {
-                font-size: 16px;
-                margin-bottom: 8px;
-            }
-            .order-type__btn {
-                padding: 6px 0;
-                font-size: 12px;
-            }
-            .cart-modal__form {
-                gap: 6px;
-            }
+            .header-wrapper { padding: 6px 12px 8px; }
+            .header__logo-icon { width: 30px; height: 30px; font-size: 11px; }
+            .header__logo-text { font-size: 14px; }
+            .header__orders { padding: 4px 10px 4px 8px; font-size: 10px; }
+            .header__orders svg { width: 14px; height: 14px; }
+            .header__orders-badge { font-size: 8px; padding: 0 6px; }
+            .tab-btn { padding: 4px 10px; font-size: 9px; }
+            .main { padding: 96px 12px 30px; }
+            .category__title { font-size: 20px; }
+            .cart-modal { padding: 14px 16px 16px; max-height: 95vh; max-width: 100%; }
+            .cart-modal__items { max-height: 120px; padding: 8px 0 10px; gap: 6px; }
+            .cart-modal__footer { max-height: calc(95vh - 140px - 55px); padding-top: 10px; }
+            .cart-item { padding: 6px 10px; gap: 8px; }
+            .cart-item__image { width: 32px; height: 32px; }
+            .cart-item__name { font-size: 12px; }
+            .cart-item__price { font-size: 11px; }
+            .cart-item__qty button { width: 20px; height: 20px; font-size: 11px; }
+            .cart-item__qty span { font-size: 12px; min-width: 14px; }
+            .cart-item__remove { font-size: 12px; }
+            .cart-modal__title { font-size: 16px; }
+            .cart-modal__total { font-size: 16px; margin-bottom: 8px; }
+            .order-type__btn { padding: 6px 0; font-size: 12px; }
+            .cart-modal__form { gap: 6px; }
             .cart-modal__form input,
-            .cart-modal__form textarea {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-            .cart-modal__form textarea {
-                min-height: 30px;
-                font-size: 11px;
-            }
-            .cafe-info {
-                padding: 6px 10px;
-                margin-bottom: 6px;
-            }
-            .cafe-info__row {
-                font-size: 10px;
-            }
-            .pickup-map iframe {
-                height: 110px;
-            }
-            .cart-modal__submit {
-                padding: 10px;
-                font-size: 13px;
-            }
-            .product__name {
-                font-size: 12px;
-                min-height: 28px;
-            }
-            .product__price {
-                font-size: 14px;
-            }
-            .product__body {
-                padding: 10px 12px 12px;
-            }
-            .product__btn {
-                font-size: 9px;
-                padding: 5px 0;
-                min-height: 28px;
-            }
-            .products {
-                gap: 10px;
-            }
-            .product-overlay__body {
-                padding: 14px 14px 18px;
-            }
-            .product-overlay__name {
-                font-size: 18px;
-            }
-            .product-overlay__price {
-                font-size: 17px;
-            }
-            .product-overlay__ingredients-list {
-                font-size: 12px;
-            }
-            .floating-cart {
-                left: 10px;
-                right: 10px;
-                bottom: 12px;
-                padding: 10px 14px;
-                border-radius: 12px;
-            }
-            .floating-cart__label {
-                font-size: 12px;
-            }
-            .floating-cart__total {
-                font-size: 14px;
-            }
-            .floating-cart__icon {
-                width: 24px;
-                height: 24px;
-            }
-            .floating-cart__icon svg {
-                width: 14px;
-                height: 14px;
-            }
-            .info-block {
-                padding: 14px 16px;
-            }
-            .info-block__item {
-                font-size: 12px;
-            }
-            .map-section iframe {
-                height: 180px;
-            }
-            .product {
-                min-height: 280px;
-            }
+            .cart-modal__form textarea { padding: 8px 12px; font-size: 12px; }
+            .cart-modal__form textarea { min-height: 30px; font-size: 11px; }
+            .cafe-info { padding: 6px 10px; margin-bottom: 6px; }
+            .cafe-info__row { font-size: 10px; }
+            .pickup-map iframe { height: 110px; }
+            .cart-modal__submit { padding: 10px; font-size: 13px; }
+            .product__name { font-size: 12px; min-height: 28px; }
+            .product__price { font-size: 14px; }
+            .product__body { padding: 10px 12px 12px; }
+            .product__btn { font-size: 9px; padding: 5px 0; min-height: 28px; }
+            .products { gap: 10px; }
+            .product-overlay__body { padding: 14px 14px 18px; }
+            .product-overlay__name { font-size: 18px; }
+            .product-overlay__price { font-size: 17px; }
+            .product-overlay__ingredients-list { font-size: 12px; }
+            .floating-cart { left: 10px; right: 10px; bottom: 12px; padding: 10px 14px; border-radius: 12px; }
+            .floating-cart__label { font-size: 12px; }
+            .floating-cart__total { font-size: 14px; }
+            .floating-cart__icon { width: 24px; height: 24px; }
+            .floating-cart__icon svg { width: 14px; height: 14px; }
+            .info-block { padding: 14px 16px; }
+            .info-block__item { font-size: 12px; }
+            .map-section iframe { height: 180px; }
+            .product { min-height: 280px; }
+            .header__logo .click-hint { font-size: 6px; bottom: -14px; }
         }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="header__logo" id="adminTrigger">
-            <div class="header__logo-icon">AB</div>
-            <div class="header__logo-text">Amur <span>Burgers</span></div>
-            <span class="click-hint">✦ 3 клика для входа</span>
+    <!-- ============ ШАПКА С ТАБАМИ ============ -->
+    <div class="header-wrapper">
+        <div class="header">
+            <div class="header__logo" id="adminTrigger">
+                <div class="header__logo-icon">AB</div>
+                <div class="header__logo-text">Amur <span>Burgers</span></div>
+                <span class="click-hint">✦ 3 клика для входа</span>
+            </div>
+            <button class="header__orders" id="userOrdersBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4v16h16V4H4z"/>
+                    <path d="M8 8h8"/>
+                    <path d="M8 12h6"/>
+                    <path d="M8 16h4"/>
+                </svg>
+                Заказы
+                <span class="header__orders-badge" id="userOrdersBadge">0</span>
+            </button>
         </div>
-        <button class="header__orders" id="userOrdersBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4v16h16V4H4z"/>
-                <path d="M8 8h8"/>
-                <path d="M8 12h6"/>
-                <path d="M8 16h4"/>
-            </svg>
-            Заказы
-            <span class="header__orders-badge" id="userOrdersBadge">0</span>
-        </button>
-    </header>
 
-    <!-- Скрытая кнопка для входа в админку -->
-    <button class="admin-secret-btn" id="adminSecretBtn" title="Админ панель">⚙️</button>
+        <!-- Табы по центру -->
+        <div class="tabs-wrapper">
+            <nav class="tabs" id="tabs">
+                <button class="tab-btn active" data-category="burgers">Бургеры</button>
+                <button class="tab-btn" data-category="tacos">Такос</button>
+                <button class="tab-btn" data-category="shawarma">Шаурма</button>
+                <button class="tab-btn" data-category="sandwiches">Сэндвичи</button>
+                <button class="tab-btn" data-category="snacks">Снеки</button>
+                <button class="tab-btn" data-category="drinks">Напитки</button>
+                <button class="tab-btn" data-category="sauces">Соусы</button>
+                <button class="tab-btn" data-category="addons">Добавки</button>
+            </nav>
+        </div>
+    </div>
 
+    <!-- ============ ОСТАЛЬНАЯ ЧАСТЬ ============ -->
     <div class="user-orders-overlay" id="userOrdersModal">
         <div class="user-orders-modal">
             <div class="user-orders-modal__header">
@@ -1714,21 +1381,7 @@
         </div>
     </div>
 
-    <div class="tabs-wrapper">
-        <nav class="tabs" id="tabs">
-            <button class="tab-btn active" data-category="burgers">Бургеры</button>
-            <button class="tab-btn" data-category="tacos">Такос</button>
-            <button class="tab-btn" data-category="shawarma">Шаурма</button>
-            <button class="tab-btn" data-category="sandwiches">Сэндвичи</button>
-            <button class="tab-btn" data-category="snacks">Снеки</button>
-            <button class="tab-btn" data-category="drinks">Напитки</button>
-            <button class="tab-btn" data-category="sauces">Соусы</button>
-            <button class="tab-btn" data-category="addons">Добавки</button>
-        </nav>
-    </div>
-
     <main class="main" id="main">
-
         <section class="category active" data-category="burgers">
             <h2 class="category__title"><span>Бургеры</span></h2>
             <div class="products" id="products-burgers"></div>
@@ -1790,9 +1443,9 @@
             <iframe src="https://yandex.ru/map-widget/v1/?ll=43.594117,43.488945&z=17&pt=43.594117,43.488945~red" allowfullscreen="true" loading="lazy">
             </iframe>
         </div>
-
     </main>
 
+    <!-- ============ ОВЕРЛЕЙ ТОВАРА ============ -->
     <div class="product-overlay" id="productOverlay">
         <div class="product-overlay__content">
             <div class="product-overlay__image">
@@ -1819,6 +1472,7 @@
         </div>
     </div>
 
+    <!-- ============ КОРЗИНА ============ -->
     <div class="floating-cart" id="floatingCart">
         <div class="floating-cart__left">
             <div class="floating-cart__icon">
@@ -1909,6 +1563,9 @@
     </div>
 
     <script>
+        // ============================================================
+        //  МЕНЮ
+        // ============================================================
         const menuData = {
             burgers: [
                 { id: 'b1', name: 'Биф бургер', price: 350, ingredients: 'Говяжья котлета, сыр чеддер, салат айсберг, помидор, лук, соус BBQ, булочка бриошь', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop' },
@@ -1986,16 +1643,16 @@
         let overlayQty = 1;
         let overlaySelectedSize = 'small';
 
-        // ============ ТРОЙНОЙ КЛИК ДЛЯ АДМИНКИ ============
+        // ============================================================
+        //  ТРОЙНОЙ КЛИК ДЛЯ АДМИНКИ (БЕЗ ШЕСТЕРЁНКИ)
+        // ============================================================
         let clickCount = 0;
         let clickTimer = null;
 
-        // Способ 1: Тройной клик по логотипу
         document.getElementById('adminTrigger').addEventListener('click', function(e) {
             e.preventDefault();
             clickCount++;
-            
-            // Визуальная обратная связь
+
             if (clickCount === 1) {
                 this.style.opacity = '0.85';
                 this.style.transform = 'scale(0.97)';
@@ -2009,11 +1666,10 @@
                 clickCount = 0;
                 clearTimeout(clickTimer);
                 if (navigator.vibrate) navigator.vibrate(50);
-                // ПЕРЕХОД В АДМИНКУ
                 window.location.href = 'admin.html';
                 return;
             }
-            
+
             clearTimeout(clickTimer);
             clickTimer = setTimeout(() => {
                 clickCount = 0;
@@ -2022,19 +1678,13 @@
             }, 800);
         });
 
-        // Способ 2: Двойной клик по логотипу (запасной)
+        // Двойной клик как запасной вариант
         document.getElementById('adminTrigger').addEventListener('dblclick', function(e) {
             e.preventDefault();
             window.location.href = 'admin.html';
         });
 
-        // Способ 3: Скрытая кнопка в правом нижнем углу
-        document.getElementById('adminSecretBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'admin.html';
-        });
-
-        // Способ 4: Для мобильных устройств - долгое нажатие на логотип
+        // Для мобильных - долгое нажатие (1.5 сек)
         let holdTimer = null;
         document.getElementById('adminTrigger').addEventListener('touchstart', function(e) {
             holdTimer = setTimeout(() => {
@@ -2048,7 +1698,9 @@
             clearTimeout(holdTimer);
         });
 
-        // ============ ОСТАЛЬНОЙ КОД ============
+        // ============================================================
+        //  ОСНОВНАЯ ЛОГИКА
+        // ============================================================
         function loadCart() {
             try {
                 const saved = localStorage.getItem('amurCart');
@@ -2398,6 +2050,9 @@
             closeOverlay();
         });
 
+        // ============================================================
+        //  ТАБЫ
+        // ============================================================
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -2405,21 +2060,17 @@
                 const category = this.dataset.category;
                 document.querySelectorAll('.category').forEach(sec => sec.classList.remove('active'));
                 document.querySelector('.category[data-category="' + category + '"]').classList.add('active');
-                const main = document.getElementById('main');
-                if (main) {
-                    const topOffset = main.getBoundingClientRect().top + window.pageYOffset - 20;
-                    window.scrollTo({ top: topOffset, behavior: 'smooth' });
-                }
             });
         });
 
+        // ============================================================
+        //  КОРЗИНА
+        // ============================================================
         document.getElementById('floatingCart').addEventListener('click', openCart);
-
         document.getElementById('cartClose').addEventListener('click', function() {
             document.getElementById('cartOverlay').classList.remove('open');
             document.body.classList.remove('no-scroll');
         });
-
         document.getElementById('cartOverlay').addEventListener('click', function(e) {
             if (e.target === this) {
                 this.classList.remove('open');
@@ -2427,6 +2078,9 @@
             }
         });
 
+        // ============================================================
+        //  ЗАКАЗЫ
+        // ============================================================
         document.querySelectorAll('.order-type__btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.order-type__btn').forEach(b => b.classList.remove('active'));
@@ -2462,9 +2116,44 @@
             };
             orders.unshift(newOrder);
             localStorage.setItem('amurOrders', JSON.stringify(orders));
+
+            // Оповещаем другие вкладки
+            try {
+                localStorage.setItem('amurOrdersUpdate', Date.now().toString());
+            } catch(e) {}
+
+            try {
+                const channel = new BroadcastChannel('amur_orders');
+                channel.postMessage({ type: 'new_order', order: newOrder });
+                channel.close();
+            } catch(e) {}
+
             playNotificationSound();
             updateBadges();
         }
+
+        // Синхронизация между вкладками
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'amurOrders' || e.key === 'amurOrdersUpdate') {
+                updateBadges();
+                if (window.location.pathname.includes('admin.html')) {
+                    window.dispatchEvent(new Event('ordersUpdated'));
+                }
+            }
+        });
+
+        try {
+            const channel = new BroadcastChannel('amur_orders');
+            channel.onmessage = function(e) {
+                if (e.data.type === 'new_order') {
+                    updateBadges();
+                    if (window.location.pathname.includes('admin.html')) {
+                        window.dispatchEvent(new Event('ordersUpdated'));
+                        playNotificationSound();
+                    }
+                }
+            };
+        } catch(e) {}
 
         function playNotificationSound() {
             try {
@@ -2542,6 +2231,9 @@
             `).join('');
         }
 
+        // ============================================================
+        //  ОТПРАВКА ЗАКАЗА
+        // ============================================================
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('orderName').value.trim();
@@ -2596,7 +2288,7 @@
             saveOrder(orderData);
 
             status.className = 'cart-modal__status success';
-            status.textContent = 'Заказ отправлен! Мы свяжемся с вами.';
+            status.textContent = '✅ Заказ отправлен! Мы свяжемся с вами.';
             cart = {};
             selectedSizeCache = {};
             saveCart();
@@ -2613,6 +2305,9 @@
             submitBtn.textContent = 'Оформить заказ';
         });
 
+        // ============================================================
+        //  ИНИЦИАЛИЗАЦИЯ
+        // ============================================================
         loadCart();
         renderAllCategories();
         updateUI();
@@ -2621,7 +2316,9 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').catch(() => {});
         }
-    </script>
 
+        console.log('✅ Amur Burgers загружен');
+        console.log('🔑 Тройной клик по логотипу для входа в админку');
+    </script>
 </body>
 </html>
