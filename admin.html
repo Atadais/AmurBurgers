@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Amur Burgers — Админ-панель</title>
+    <title>BURGERHUB — Админ-панель</title>
     <link rel="manifest" href="manifest.json">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,6 +15,8 @@
             --olive-dark: #1E331F;
             --gold: #D4A843;
             --gold-light: #E8C86A;
+            --red: #C0392B;
+            --red-light: #E74C3C;
             --dark: #2C1810;
             --text: #2C1810;
             --text-muted: #6B5A4F;
@@ -168,12 +170,12 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
         .stat-card {
             background: var(--card);
             border-radius: var(--radius-sm);
-            padding: 16px 14px;
+            padding: 14px 14px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(44, 24, 16, 0.04);
             text-align: center;
@@ -181,15 +183,17 @@
         }
         .stat-card:hover { box-shadow: var(--shadow-hover); }
         .stat-card__number {
-            font-size: 34px;
+            font-size: 28px;
             font-weight: 800;
             color: var(--olive);
             line-height: 1.1;
         }
         .stat-card__number.green { color: #2E7D32; }
         .stat-card__number.orange { color: #D4A843; }
+        .stat-card__number.red { color: var(--red); }
+        .stat-card__number.gold { color: var(--gold); }
         .stat-card__label {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
             margin-top: 2px;
             text-transform: uppercase;
@@ -223,6 +227,9 @@
             border-color: var(--olive);
             color: var(--olive);
         }
+        .filter-btn.all-btn {
+            order: 999;
+        }
 
         .orders-list {
             display: flex;
@@ -242,6 +249,10 @@
         .order-card.new-order {
             border-left-color: #D4A843;
             animation: pulse-border 1.5s ease;
+        }
+        .order-card.cancelled {
+            border-left-color: var(--red);
+            opacity: 0.7;
         }
         @keyframes pulse-border {
             0%, 100% { border-left-color: #D4A843; }
@@ -325,6 +336,10 @@
             background: rgba(46, 125, 50, 0.12);
             color: #2E7D32;
         }
+        .order-card__status.cancelled {
+            background: rgba(192, 57, 43, 0.12);
+            color: var(--red);
+        }
         .order-card__btn {
             padding: 5px 16px;
             border-radius: 50px;
@@ -345,6 +360,16 @@
             color: #fff;
         }
         .order-card__btn.accept:hover { background: var(--olive-dark); }
+        .order-card__btn.cancel {
+            background: var(--red);
+            color: #fff;
+        }
+        .order-card__btn.cancel:hover { background: var(--red-light); }
+        .order-card__btn.restore {
+            background: var(--gold);
+            color: var(--olive-dark);
+        }
+        .order-card__btn.restore:hover { background: var(--gold-light); }
 
         .empty-orders {
             text-align: center;
@@ -388,21 +413,21 @@
 
         @media (max-width: 600px) {
             .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .stat-card__number { font-size: 26px; }
+            .stat-card__number { font-size: 22px; }
             .admin-header__title { font-size: 22px; }
             .order-card { padding: 14px 14px; }
         }
         @media (max-width: 400px) {
             .stats { grid-template-columns: 1fr 1fr; gap: 8px; }
-            .stat-card { padding: 12px 10px; }
-            .stat-card__number { font-size: 22px; }
+            .stat-card { padding: 10px 8px; }
+            .stat-card__number { font-size: 18px; }
             .login-modal { padding: 28px 18px 20px; }
             .login-modal__title { font-size: 20px; }
             .order-card__id { font-size: 13px; }
             .order-card__customer { font-size: 14px; }
             .order-card__total { font-size: 15px; }
             .filters { gap: 4px; }
-            .filter-btn { padding: 5px 12px; font-size: 11px; }
+            .filter-btn { padding: 4px 10px; font-size: 10px; }
         }
     </style>
 </head>
@@ -410,7 +435,7 @@
 
     <div class="login-overlay" id="loginOverlay">
         <div class="login-modal">
-            <div class="login-modal__title">Amur <span>Burgers</span></div>
+            <div class="login-modal__title">BURGER<span>HUB</span></div>
             <div class="login-modal__sub">Введите пароль для доступа</div>
             <input type="password" class="login-modal__input" id="adminPassword" placeholder="Пароль" autocomplete="off">
             <button class="login-modal__btn" id="loginBtn">Войти</button>
@@ -420,7 +445,7 @@
 
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
-            <div class="admin-header__title">Заказы <span>Amur</span></div>
+            <div class="admin-header__title">Заказы <span>BURGERHUB</span></div>
             <button class="admin-header__close" onclick="window.location.href='index.html'">На главную</button>
         </div>
 
@@ -445,18 +470,39 @@
                 <div class="stat-card__label">Принято</div>
             </div>
             <div class="stat-card">
-                <div class="stat-card__number" id="statToday">0</div>
-                <div class="stat-card__label">Сегодня</div>
+                <div class="stat-card__number red" id="statCancelled">0</div>
+                <div class="stat-card__label">Отменено</div>
+            </div>
+        </div>
+
+        <!-- Статистика по выручке -->
+        <div class="stats" id="revenueStats">
+            <div class="stat-card">
+                <div class="stat-card__number gold" id="revenueToday">0 ₽</div>
+                <div class="stat-card__label">За день</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__number gold" id="revenueWeek">0 ₽</div>
+                <div class="stat-card__label">За неделю</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__number gold" id="revenueMonth">0 ₽</div>
+                <div class="stat-card__label">За месяц</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__number gold" id="revenueTotal">0 ₽</div>
+                <div class="stat-card__label">Всего</div>
             </div>
         </div>
 
         <div class="filters" id="filters">
-            <button class="filter-btn active" data-filter="all">Все</button>
-            <button class="filter-btn" data-filter="processing">В обработке</button>
+            <button class="filter-btn active" data-filter="processing">В обработке</button>
             <button class="filter-btn" data-filter="accepted">Принятые</button>
+            <button class="filter-btn" data-filter="cancelled">Отменённые</button>
             <button class="filter-btn" data-filter="today">Сегодня</button>
             <button class="filter-btn" data-filter="week">Неделя</button>
             <button class="filter-btn" data-filter="month">Месяц</button>
+            <button class="filter-btn all-btn" data-filter="all">Все</button>
         </div>
 
         <div class="orders-list" id="ordersList">
@@ -472,9 +518,9 @@
         const JSONBIN_MASTER_KEY = '$2a$10$H1rjUVhTASPDIZOjOcw5vuwbi6wZ2NIx01bSpW/15OcuMSQkhuO/.';
         const JSONBIN_API_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
-        const ADMIN_PASSWORD = 'Amur_amur1@';
+        const ADMIN_PASSWORD = 'Burger_hub1@';
         let orders = [];
-        let currentFilter = 'all';
+        let currentFilter = 'processing';
 
         // ============================================================
         //  РАБОТА С JSONBin
@@ -492,17 +538,17 @@
                 const data = await response.json();
                 return Array.isArray(data.record) ? data.record : [];
             } catch (error) {
-                console.error('❌ Ошибка получения заказов:', error);
+                console.error('Ошибка получения заказов:', error);
                 return [];
             }
         }
 
-        async function acceptOrderInCloud(orderId) {
+        async function updateOrderInCloud(orderId, newStatus) {
             try {
                 const currentOrders = await getOrdersFromCloud();
                 const orderIndex = currentOrders.findIndex(o => o.id === orderId);
                 if (orderIndex === -1) return false;
-                currentOrders[orderIndex].status = 'accepted';
+                currentOrders[orderIndex].status = newStatus;
                 const response = await fetch(JSONBIN_API_URL, {
                     method: 'PUT',
                     headers: {
@@ -516,7 +562,7 @@
                 renderOrders();
                 return true;
             } catch (error) {
-                console.error('❌ Ошибка:', error);
+                console.error('Ошибка:', error);
                 return false;
             }
         }
@@ -528,13 +574,38 @@
             const total = orders.length;
             const processing = orders.filter(o => o.status === 'processing').length;
             const accepted = orders.filter(o => o.status === 'accepted').length;
-            const today = new Date().toDateString();
-            const todayOrders = orders.filter(o => new Date(o.date).toDateString() === today).length;
+            const cancelled = orders.filter(o => o.status === 'cancelled').length;
 
             document.getElementById('statTotal').textContent = total;
             document.getElementById('statProcessing').textContent = processing;
             document.getElementById('statAccepted').textContent = accepted;
-            document.getElementById('statToday').textContent = todayOrders;
+            document.getElementById('statCancelled').textContent = cancelled;
+
+            // Выручка
+            const today = new Date().toDateString();
+            const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+            const monthAgo = new Date(); monthAgo.setMonth(monthAgo.getMonth() - 1);
+
+            const acceptedOrders = orders.filter(o => o.status === 'accepted');
+            
+            const revenueToday = acceptedOrders
+                .filter(o => new Date(o.date).toDateString() === today)
+                .reduce((sum, o) => sum + o.total, 0);
+            
+            const revenueWeek = acceptedOrders
+                .filter(o => new Date(o.date) >= weekAgo)
+                .reduce((sum, o) => sum + o.total, 0);
+            
+            const revenueMonth = acceptedOrders
+                .filter(o => new Date(o.date) >= monthAgo)
+                .reduce((sum, o) => sum + o.total, 0);
+            
+            const revenueTotal = acceptedOrders.reduce((sum, o) => sum + o.total, 0);
+
+            document.getElementById('revenueToday').textContent = revenueToday + ' ₽';
+            document.getElementById('revenueWeek').textContent = revenueWeek + ' ₽';
+            document.getElementById('revenueMonth').textContent = revenueMonth + ' ₽';
+            document.getElementById('revenueTotal').textContent = revenueTotal + ' ₽';
         }
 
         function getFilteredOrders(filter) {
@@ -542,14 +613,22 @@
             const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
             const monthAgo = new Date(); monthAgo.setMonth(monthAgo.getMonth() - 1);
 
-            switch(filter) {
-                case 'processing': return orders.filter(o => o.status === 'processing');
-                case 'accepted': return orders.filter(o => o.status === 'accepted');
-                case 'today': return orders.filter(o => new Date(o.date).toDateString() === today);
-                case 'week': return orders.filter(o => new Date(o.date) >= weekAgo);
-                case 'month': return orders.filter(o => new Date(o.date) >= monthAgo);
-                default: return orders;
+            let filtered = orders;
+            
+            if (filter !== 'all') {
+                switch(filter) {
+                    case 'processing': filtered = orders.filter(o => o.status === 'processing'); break;
+                    case 'accepted': filtered = orders.filter(o => o.status === 'accepted'); break;
+                    case 'cancelled': filtered = orders.filter(o => o.status === 'cancelled'); break;
+                    case 'today': filtered = orders.filter(o => new Date(o.date).toDateString() === today); break;
+                    case 'week': filtered = orders.filter(o => new Date(o.date) >= weekAgo); break;
+                    case 'month': filtered = orders.filter(o => new Date(o.date) >= monthAgo); break;
+                    default: filtered = orders;
+                }
             }
+            
+            // Сортировка по дате (сначала новые)
+            return filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
         }
 
         function renderOrders() {
@@ -562,33 +641,57 @@
                 return;
             }
 
-            container.innerHTML = filtered.map(order => `
-                <div class="order-card ${order.status === 'processing' ? 'new-order' : ''}">
-                    <div class="order-card__top">
-                        <span class="order-card__id">Заказ #${String(order.id).slice(-6)}</span>
-                        <span class="order-card__date">${new Date(order.date).toLocaleString('ru-RU')}</span>
+            container.innerHTML = filtered.map(order => {
+                const statusText = {
+                    processing: 'В обработке',
+                    accepted: 'Принят',
+                    cancelled: 'Отменён'
+                }[order.status] || order.status;
+
+                const statusClass = order.status || 'processing';
+                const isCancelled = order.status === 'cancelled';
+
+                return `
+                    <div class="order-card ${order.status === 'processing' ? 'new-order' : ''} ${isCancelled ? 'cancelled' : ''}">
+                        <div class="order-card__top">
+                            <span class="order-card__id">Заказ #${String(order.id).slice(-6)}</span>
+                            <span class="order-card__date">${new Date(order.date).toLocaleString('ru-RU')}</span>
+                        </div>
+                        <div>
+                            <span class="order-card__type">${order.type === 'delivery' ? 'Доставка' : 'С собой'}</span>
+                        </div>
+                        <div class="order-card__customer">${order.name} | ${order.phone}</div>
+                        <div class="order-card__items">${order.items}</div>
+                        <div class="order-card__total">${order.total} ₽</div>
+                        ${order.address ? `<div class="order-card__address">📍 ${order.address}</div>` : ''}
+                        <div class="order-card__bottom">
+                            <span class="order-card__status ${statusClass}">
+                                ${statusText}
+                            </span>
+                            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                ${order.status === 'processing' ? `
+                                    <button class="order-card__btn accept" onclick="updateOrder(${order.id}, 'accepted')">
+                                        Принять
+                                    </button>
+                                    <button class="order-card__btn cancel" onclick="updateOrder(${order.id}, 'cancelled')">
+                                        Отменить
+                                    </button>
+                                ` : ''}
+                                ${order.status === 'accepted' ? `
+                                    <button class="order-card__btn cancel" onclick="updateOrder(${order.id}, 'cancelled')">
+                                        Отменить
+                                    </button>
+                                ` : ''}
+                                ${order.status === 'cancelled' ? `
+                                    <button class="order-card__btn restore" onclick="updateOrder(${order.id}, 'processing')">
+                                        Восстановить
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span class="order-card__type">${order.type === 'delivery' ? '🚚 Доставка' : '🏃 С собой'}</span>
-                    </div>
-                    <div class="order-card__customer">${order.name} | ${order.phone}</div>
-                    <div class="order-card__items">${order.items}</div>
-                    <div class="order-card__total">${order.total} ₽</div>
-                    ${order.address ? `<div class="order-card__address">📍 ${order.address}</div>` : ''}
-                    <div class="order-card__bottom">
-                        <span class="order-card__status ${order.status}">
-                            ${order.status === 'processing' ? '⏳ В обработке' : '✅ Принят'}
-                        </span>
-                        ${order.status === 'processing' ? `
-                            <button class="order-card__btn accept" onclick="acceptOrder(${order.id})">
-                                ✅ Принять заказ
-                            </button>
-                        ` : `
-                            <span style="font-size:12px; color:var(--text-muted);">Заказ принят</span>
-                        `}
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         // ============================================================
@@ -635,10 +738,12 @@
             });
         });
 
-        async function acceptOrder(orderId) {
-            const success = await acceptOrderInCloud(orderId);
+        async function updateOrder(orderId, newStatus) {
+            const success = await updateOrderInCloud(orderId, newStatus);
             if (success) {
-                playNotificationSound();
+                if (newStatus === 'processing') {
+                    playNotificationSound();
+                }
             }
         }
 
@@ -654,7 +759,7 @@
                 if ('Notification' in window && Notification.permission === 'granted') {
                     document.getElementById('notifBanner').style.display = 'none';
                 }
-                try { localStorage.setItem('amurAdminAuth', 'true'); } catch(e) {}
+                try { localStorage.setItem('burgerhubAdminAuth', 'true'); } catch(e) {}
             } else {
                 document.getElementById('loginError').classList.add('show');
                 document.getElementById('adminPassword').value = '';
@@ -675,8 +780,8 @@
                             navigator.serviceWorker.ready.then(reg => {
                                 reg.showNotification('Уведомления включены', {
                                     body: 'Вы будете получать оповещения о новых заказах',
-                                    icon: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
-                                    badge: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
+                                    icon: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=BH&font=playfair',
+                                    badge: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=BH&font=playfair',
                                 });
                             });
                         }
@@ -698,7 +803,10 @@
 
         async function checkNewOrders() {
             const currentOrders = await getOrdersFromCloud();
-            if (currentOrders.length > orders.length) {
+            const newProcessing = currentOrders.filter(o => o.status === 'processing').length;
+            const oldProcessing = orders.filter(o => o.status === 'processing').length;
+            
+            if (newProcessing > oldProcessing) {
                 orders = currentOrders;
                 renderOrders();
                 playNotificationSound();
@@ -706,9 +814,9 @@
                 if ('Notification' in window && Notification.permission === 'granted' && 'serviceWorker' in navigator) {
                     navigator.serviceWorker.ready.then(reg => {
                         reg.showNotification('🆕 Новый заказ!', {
-                            body: 'Поступил новый заказ в Amur Burgers',
-                            icon: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
-                            badge: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=AB&font=playfair',
+                            body: 'Поступил новый заказ в BURGERHUB',
+                            icon: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=BH&font=playfair',
+                            badge: 'https://placehold.co/192x192/2D4A2E/FFFFFF?text=BH&font=playfair',
                             vibrate: [200, 100, 200],
                             tag: 'new-order',
                             renotify: true,
@@ -728,7 +836,7 @@
         // ============================================================
         (function() {
             try {
-                if (localStorage.getItem('amurAdminAuth') === 'true') {
+                if (localStorage.getItem('burgerhubAdminAuth') === 'true') {
                     document.getElementById('loginOverlay').classList.add('hidden');
                     document.getElementById('adminPanel').classList.add('open');
                     loadOrders();
@@ -742,11 +850,8 @@
             } catch(e) {}
         })();
 
-        console.log('✅ Админ-панель Amur Burgers загружена');
-        console.log('🔑 Пароль: Amur_amur1@');
-        console.log('☁️ Заказы синхронизируются через JSONBin.io');
-        console.log('🔊 Звук включен для новых заказов');
-        console.log('📋 Показаны все заказы со всех устройств');
+        console.log('BURGERHUB Админ-панель загружена');
+        console.log('Пароль: Burger_hub1@');
     </script>
 </body>
 </html>
