@@ -1491,27 +1491,31 @@
                         <textarea id="orderComment" placeholder="Комментарий к адресу" rows="2"></textarea>
                     </div>
 
-                    <div id="pickupFields" class="hidden">
-                        <div class="cafe-info" style="margin-top:0;">
-                            <div class="cafe-info__row">
-                                <strong>Адрес самовывоза:</strong>
-                                <span>ТЦ Сити парк, Осетинская ул., 126</span>
-                            </div>
-                            <div class="cafe-info__row">
-                                <strong>Время работы:</strong>
-                                <span>10:00 — 21:30</span>
-                            </div>
-                        </div>
+                    <!-- ===== С СОБОЙ (С КАРТОЙ) ===== -->
+<div id="pickupFields" class="hidden">
+    <div class="cafe-info" style="margin-top:0;">
+        <div class="cafe-info__row">
+            <strong>Адрес самовывоза:</strong>
+            <span>ТЦ Сити парк, Осетинская ул., 126</span>
+        </div>
+        <div class="cafe-info__row">
+            <strong>Время работы:</strong>
+            <span>10:00 — 21:30</span>
+        </div>
+    </div>
 
-                        <div class="pickup-map">
-                            <iframe src="https://yandex.ru/map-widget/v1/?ll=43.594117,43.488945&z=17&pt=43.594117,43.488945~red" allowfullscreen="true" loading="lazy">
-                            </iframe>
-                        </div>
-                        <div class="pickup-map__label">ТЦ Сити парк, Осетинская ул., 126</div>
+    <!-- КАРТА С НОВЫМ АДРЕСОМ -->
+    <div class="pickup-map">
+        <iframe 
+            src="https://yandex.ru/map-widget/v1/?ll=43.620079,43.488876&z=17&pt=43.620079,43.488876~red" 
+            allowfullscreen="true" 
+            loading="lazy">
+        </iframe>
+    </div>
+    <div class="pickup-map__label">ТЦ Сити парк, Осетинская ул., 126, Нальчик</div>
 
-                        <textarea id="orderPickupComment" placeholder="Комментарий к заказу" rows="2"></textarea>
-                    </div>
-
+    <textarea id="orderPickupComment" placeholder="Комментарий к заказу" rows="2"></textarea>
+</div>
                     <button type="submit" class="cart-modal__submit" id="orderSubmit">Оформить заказ</button>
                     <div class="cart-modal__status" id="orderStatus"></div>
                 </form>
